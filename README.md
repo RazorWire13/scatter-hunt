@@ -4,7 +4,16 @@ ScatterHunt is a mobile-enabled scavenger hunt Android app that allows users the
 
 Each list item displays a set of clues and the distance they are from the user (but not the direction). This means users need to have a concept of where they are going to accomplish each geo-goal before they start running off and creates a new dimension of optimization not found in other scavenger hunt games.
 
-To accomplish a goal, the user must answer a question that is unique to an object at the goal they are headed to and input the answer in the list item. When all the goals have been visited and answers provided, Users are then redirected to a results view that displays stats on how they did while on the hunt!
+To accomplish a goal, the user must answer a question that is unique to an object at the goal they are headed to and input the answer in the list item. When all the goals have been visited and answers provided, Users are then redirected to a results 
+view that displays stats on how they did while on the hunt!
+
+### User Stories
+- As a User I want to be able to get a list of destinations to find.
+- As a User I want to have a clean and easy to use UI for setting up games.
+- As a User I want to be able to see how long it took me to find all of the objectives I found in a game.
+- As a Developer I should build an intuitive efficient way to store current game information; Including objective locations, - starting time, and times when completed.
+-As a developer I want to be able alert users when they are within the vacinity of a goal
+-As a developer I want to tell users their relative distance from the goals
 
 ### Project SetUp
 - [User Stories](/project-assets/readmes/userStories.md) `forthcoming`
