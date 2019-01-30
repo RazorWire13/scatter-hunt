@@ -11,8 +11,8 @@ view that displays stats on how they did while on the hunt!
 - As a User I want to be able to get a list of destinations to find.
 - As a User I want to have a clean and easy to use UI for setting up games.
 - As a User I want to be able to see how long it took me to find all of the objectives I found in a game.
-- As a Developer I should build an intuitive efficient way to store current game information; Including objective locations, 
-- starting time, and times when completed.
+- As a Developer I should build an intuitive efficient way to store current game information; Including objective locations, starting time, and times when completed.
+
 -As a developer I want to be able alert users when they are within the vacinity of a goal
 -As a developer I want to tell users their relative distance from the goals
 
