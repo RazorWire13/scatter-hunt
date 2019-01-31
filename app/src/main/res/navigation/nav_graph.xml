@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.ScatterHunt.scatterhunt.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/toSetupActivity"
+            app:destination="@id/setupActivity" />
+        <action
+            android:id="@+id/action_mainFragment_to_addHuntLocation"
+            app:destination="@id/addHuntLocation" />
+    </fragment>
+    <fragment
+        android:id="@+id/setupActivity"
+        android:name="com.ScatterHunt.scatterhunt.SetupActivity"
+        android:label="fragment_setup"
+        tools:layout="@layout/fragment_setup"
+    >
+        <action
+            android:id="@+id/action_setupActivity_to_playingActivity"
+            app:destination="@id/playingActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/playingActivity"
+        android:name="com.ScatterHunt.scatterhunt.PlayingActivity"
+        android:label="fragment_playing"
+        tools:layout="@layout/fragment_playing" >
+        <action
+            android:id="@+id/action_playingActivity_to_playHistory"
+            app:destination="@id/playHistory" />
+    </fragment>
+    <fragment
+        android:id="@+id/addHuntLocation"
+        android:name="com.ScatterHunt.scatterhunt.AddHuntLocation"
+        android:label="fragment_add_hunt_location"
+        tools:layout="@layout/fragment_add_hunt_location" />
+    <fragment
+        android:id="@+id/playHistory"
+        android:name="com.ScatterHunt.scatterhunt.PlayHistory"
+        android:label="fragment_play_history"
+        tools:layout="@layout/fragment_play_history" >
+        <action
+            android:id="@+id/action_playHistory_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+</navigation>

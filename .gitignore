@@ -51,6 +51,8 @@ captures/
 freeline.py
 freeline/
 freeline_project_description.json
+#Google stuff
+google-services.json
 
 ### Android Patch ###
 gen-external-apklibs
