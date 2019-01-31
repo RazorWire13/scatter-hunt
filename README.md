@@ -8,12 +8,23 @@ To accomplish a goal, the user must answer a question that is unique to an objec
 view that displays stats on how they did while on the hunt!
 
 ### User Stories
-- As a User I want to be able to get a list of destinations to find.
-- As a User I want to have a clean and easy to use UI for setting up games.
-- As a User I want to be able to see how long it took me to find all of the objectives I found in a game.
-- As a Developer I should build an intuitive efficient way to store current game information; Including objective locations, starting time, and times when completed.
--As a developer I want to be able alert users when they are within the vacinity of a goal
--As a developer I want to tell users their relative distance from the goals
+- As a User I want to be able to get a list of destinations to find. (est 1hr)
+    - Consideration: RecyclerView with user current game information. Store the current objectives on the user in the database so that if the app crashes or gets closed they don't lose their progress. This can be maintained with a timestamp on game start
+    
+- As a User I want to have a clean and easy to use UI for setting up games. (est 2hrs)
+  - Consideration: Working in xml files to coordinate the design of each view.
+  
+- As a User I want to be able to see how long it took me to find all of the objectives I found in a game. (est 2hrs)
+  - Consideration: Partially dependent on that start tim and also their completed times for each objective. Storing those in a table perhaps with what each are. Perhaps use RecyclerView on the score page also with start time and then location and completion time for each objective. Then a score at the bottom out of the total and a new game button
+  
+- As a Developer I should build an intuitive efficient way to store current game information; Including objective locations, starting time, and times when completed. (est 5 hrs)
+  - Consideration: Use Firebase database to store game data once collected
+  
+- As a developer I want to be able alert users when they are within the vacinity of a goal (est 3hrs)
+  - Consideration: Will require the creation of a geo-fence around the goal that triggers an event notification to the user when crossed that they have reached a goal
+  
+- As a developer I want to tell users their relative distance from the goals (est 2hr)
+  - Consideration: May do the location distance calculation locally so that it doesn't require the phone to make a request every second to a backend. This will save on data for users as well as not bogging down a backend.
 
 ### Project SetUp
 - [User Stories](/project-assets/readmes/userStories.md) `forthcoming`
