@@ -4,11 +4,14 @@ package com.ScatterHunt.scatterhunt;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -37,6 +40,16 @@ public class SetupActivity extends Fragment implements AdapterView.OnItemSelecte
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(context, R.array.huntNumbers, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(adapter2);
+
+        Button goToPlayScreen = view.findViewById(R.id.goToPlayScreen);
+
+
+        goToPlayScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.toPlayScreen);
+            }
+        });
 
         return view;
     }

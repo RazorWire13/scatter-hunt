@@ -10,38 +10,23 @@
         android:id="@+id/mainFragment"
         android:name="com.ScatterHunt.scatterhunt.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/toSetupActivity"
             app:destination="@id/setupActivity" />
         <action
-            android:id="@+id/action_mainFragment_to_addHuntLocation"
-            app:destination="@id/addHuntLocation" />
+            android:id="@+id/toAddHunt"
+            app:destination="@id/addHunts" />
     </fragment>
     <fragment
         android:id="@+id/setupActivity"
         android:name="com.ScatterHunt.scatterhunt.SetupActivity"
         android:label="fragment_setup"
-        tools:layout="@layout/fragment_setup"
-    >
+        tools:layout="@layout/fragment_setup">
         <action
-            android:id="@+id/action_setupActivity_to_playingActivity"
-            app:destination="@id/playingActivity" />
+            android:id="@+id/toPlayScreen"
+            app:destination="@+id/playScreen" />
     </fragment>
-    <fragment
-        android:id="@+id/playingActivity"
-        android:name="com.ScatterHunt.scatterhunt.PlayingActivity"
-        android:label="fragment_playing"
-        tools:layout="@layout/fragment_playing" >
-        <action
-            android:id="@+id/action_playingActivity_to_playHistory"
-            app:destination="@id/playHistory" />
-    </fragment>
-    <fragment
-        android:id="@+id/addHuntLocation"
-        android:name="com.ScatterHunt.scatterhunt.AddHuntLocation"
-        android:label="fragment_add_hunt_location"
-        tools:layout="@layout/fragment_add_hunt_location" />
     <fragment
         android:id="@+id/playHistory"
         android:name="com.ScatterHunt.scatterhunt.PlayHistory"
@@ -51,4 +36,15 @@
             android:id="@+id/action_playHistory_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addHunts"
+        android:name="com.ScatterHunt.scatterhunt.AddHuntLocation"
+        android:label="fragment_add_hunt_location.xml"
+        tools:layout="@layout/fragment_add_hunt_location" />
+    <fragment
+        android:id="@+id/playScreen"
+        android:name="com.ScatterHunt.scatterhunt.PlayingActivity"
+        android:label="fragment_playscreen"
+        tools:layout="@layout/fragment_playing" />
+    <fragment />
 </navigation>

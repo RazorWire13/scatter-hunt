@@ -74,12 +74,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/startGame"
+        app:layout_constraintBottom_toTopOf="@+id/goToPlayScreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView5" />
 
     <Button
-        android:id="@+id/startGame"
+        android:id="@+id/goToPlayScreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="21dp"
