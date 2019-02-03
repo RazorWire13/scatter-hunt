@@ -25,15 +25,15 @@
         android:id="@+id/loggedInUserTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NOT LOGGED IN"
-        app:layout_constraintBottom_toTopOf="@+id/goToPlayGameButton"
+        android:text="Not Logged In"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoToSetupFragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userPic" />
 
     <Button
-        android:id="@+id/goToPlayGameButton"
+        android:id="@+id/btnGoToSetupFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -41,8 +41,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="Play Game"
-        app:layout_constraintBottom_toTopOf="@+id/signInButton"
+        android:text="Create New Game"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoToSignInView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
-        android:id="@+id/signInButton"
+        android:id="@+id/btnGoToSignInView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -58,16 +58,16 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="SIGN IN"
+        android:text="Sign In"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goToPlayGameButton" />
+        app:layout_constraintTop_toBottomOf="@+id/btnGoToSetupFragment" />
 
     <Button
-        android:id="@+id/goToAddHuntButton"
+        android:id="@+id/btnGoToCreateGoalFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -75,11 +75,11 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="Add Custom Hunts"
+        android:text="Create New Goal"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
+        app:layout_constraintTop_toBottomOf="@+id/btnGoToSignInView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

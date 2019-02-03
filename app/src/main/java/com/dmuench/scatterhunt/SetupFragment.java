@@ -28,21 +28,20 @@ public class SetupFragment extends Fragment implements AdapterView.OnItemSelecte
         View view = inflater.inflate(R.layout.fragment_setup, container, false);
         Context context = getActivity();
 
-        Spinner spinner1 = view.findViewById(R.id.spinner1);
-        Spinner spinner2 = view.findViewById(R.id.spinner2);
+        Spinner pulldownMenuPlayfield = view.findViewById(R.id.pulldownMenuPlayfield);
+        Spinner pulldownMenuGoals = view.findViewById(R.id.pulldownMenuGoals);
 
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(context, R.array.rangeNumbers, android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner1.setAdapter(adapter1);
+        ArrayAdapter<CharSequence> playfieldArrayAdapter = ArrayAdapter.createFromResource(context, R.array.playfieldRange, android.R.layout.simple_spinner_item);
+        playfieldArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pulldownMenuPlayfield.setAdapter(playfieldArrayAdapter);
 
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(context, R.array.huntNumbers, android.R.layout.simple_spinner_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner2.setAdapter(adapter2);
+        ArrayAdapter<CharSequence> goalArrayAdapter = ArrayAdapter.createFromResource(context, R.array.numberOfGoals, android.R.layout.simple_spinner_item);
+        goalArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pulldownMenuGoals.setAdapter(goalArrayAdapter);
 
-        Button goToPlayScreen = view.findViewById(R.id.goToPlayScreen);
+        Button btnGoToPlayFragment = view.findViewById(R.id.btnGoToPlayFragment);
 
-
-        goToPlayScreen.setOnClickListener(new View.OnClickListener() {
+        btnGoToPlayFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: use next line when play screen created

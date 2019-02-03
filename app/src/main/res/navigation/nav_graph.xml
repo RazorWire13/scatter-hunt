@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_main" >
 
         <action
-        android:id="@+id/toSetupFragment"
+        android:id="@+id/setupFragmentAction"
         app:destination="@id/setupFragment" />
         <action
-            android:id="@+id/toAddGoal"
+            android:id="@+id/createGoalAction"
             app:destination="@id/addGoal" />
     </fragment>
     <fragment
@@ -25,9 +25,9 @@
         tools:layout="@layout/fragment_setup" />
     <fragment
         android:id="@+id/addGoal"
-        android:name="com.dmuench.scatterhunt.AddGoal"
+        android:name="com.dmuench.scatterhunt.CreateGoalFragment"
         android:label="fragment_add_goal"
-        tools:layout="@layout/fragment_add_goal" />
+        tools:layout="@layout/fragment_create_goal" />
 
 
 </navigation>

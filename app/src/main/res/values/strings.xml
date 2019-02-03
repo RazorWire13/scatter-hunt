@@ -3,8 +3,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="instructions">Instructions</string>
 
-    <string-array name="rangeNumbers">
+    <string-array name="playfieldRange">
         <item>5 miles</item>
         <item>10 miles</item>
         <item>15 miles</item>
@@ -12,7 +13,7 @@
 
     </string-array>
 
-    <string-array name="huntNumbers">
+    <string-array name="numberOfGoals">
         <item>One Hunt</item>
         <item>Two Hunts</item>
         <item>Three Hunts</item>

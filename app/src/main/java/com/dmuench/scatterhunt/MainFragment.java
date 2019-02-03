@@ -47,8 +47,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        Button signInButton = view.findViewById(R.id.signInButton);
-
+        Button signInButton = view.findViewById(R.id.btnGoToSignInView);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +56,6 @@ public class MainFragment extends Fragment {
                 List<AuthUI.IdpConfig> providers = Arrays.asList(
                         new AuthUI.IdpConfig.EmailBuilder().build());
 
-
                 if (signInStatus) {
                     AuthUI.getInstance()
                             .signOut(getContext())
@@ -65,15 +63,14 @@ public class MainFragment extends Fragment {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     TextView welcomeView = getView().findViewById(R.id.loggedInUserTextView);
                                     welcomeView.setText("NOT LOGGED IN");
-                                    Button signInButton = getView().findViewById(R.id.signInButton);
+                                    Button signInButton = getView().findViewById(R.id.btnGoToSignInView);
                                     signInButton.setText("Sign Up");
-                                    Button addHuntsButton = getView().findViewById(R.id.goToAddHuntButton);
+                                    Button addHuntsButton = getView().findViewById(R.id.btnGoToCreateGoalFragment);
                                     addHuntsButton.setVisibility(View.GONE);
                                 }
                             });
                 }
                 if (!signInStatus) {
-
 
 // Create and launch sign-in intent
                     startActivityForResult(
@@ -87,27 +84,25 @@ public class MainFragment extends Fragment {
         });
 
         return view;
-
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button goToPlayGameButton = view.findViewById(R.id.goToPlayGameButton);
-        Button goToAddHuntButton = view.findViewById(R.id.goToAddHuntButton);
+        Button btnGoToSetupFragment = view.findViewById(R.id.btnGoToSetupFragment);
+        Button btnGoToCreateGoalFragment = view.findViewById(R.id.btnGoToCreateGoalFragment);
 
-
-        goToPlayGameButton.setOnClickListener(new View.OnClickListener() {
+        btnGoToSetupFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.toSetupFragment);
+                Navigation.findNavController(view).navigate(R.id.setupFragmentAction);
             }
         });
 
-        goToAddHuntButton.setOnClickListener(new View.OnClickListener() {
+        btnGoToCreateGoalFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.toAddGoal);
+                Navigation.findNavController(view).navigate(R.id.createGoalAction);
             }
         });
     }
@@ -126,10 +121,10 @@ public class MainFragment extends Fragment {
                 TextView welcomeView = getView().findViewById(R.id.loggedInUserTextView);
                 welcomeView.setText(user.getDisplayName());
 
-                Button signInButton = getView().findViewById(R.id.signInButton);
+                Button signInButton = getView().findViewById(R.id.btnGoToSignInView);
                 signInButton.setText("Logout");
                 signInStatus = true;
-                Button addHuntsButton = getView().findViewById(R.id.goToAddHuntButton);
+                Button addHuntsButton = getView().findViewById(R.id.btnGoToCreateGoalFragment);
                 addHuntsButton.setVisibility(View.VISIBLE);
 
 
