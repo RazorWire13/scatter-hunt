@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "785709096647",
+    "firebase_url": "https://scatter-hunt.firebaseio.com",
+    "project_id": "scatter-hunt",
+    "storage_bucket": "scatter-hunt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785709096647:android:bd225ea75bb3638c",
+        "android_client_info": {
+          "package_name": "com.dmuench.scatterhunt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785709096647-fq4l8ni9ad50sccnu9nrmutikbqusdvr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dmuench.scatterhunt",
+            "certificate_hash": "15f2096343530780dbc60dd23507d0f30f433683"
+          }
+        },
+        {
+          "client_id": "785709096647-25e42vleu3qulvh3jkuh3491aiqsiipg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWH3wKnzgOGbw8tiQhIJRw_itHD-bdKk8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785709096647-25e42vleu3qulvh3jkuh3491aiqsiipg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
