@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.dmuench.scatterhunt.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+
+        <action
+        android:id="@+id/toSetupFragment"
+        app:destination="@id/setupFragment" />
+        <action
+            android:id="@+id/toAddGoal"
+            app:destination="@id/addGoal" />
+    </fragment>
+    <fragment
+        android:id="@+id/setupFragment"
+        android:name="com.dmuench.scatterhunt.SetupFragment"
+        android:label="fragment_setup"
+        tools:layout="@layout/fragment_setup" />
+    <fragment
+        android:id="@+id/addGoal"
+        android:name="com.dmuench.scatterhunt.AddGoal"
+        android:label="fragment_add_goal"
+        tools:layout="@layout/fragment_add_goal" />
+
+
+</navigation>
