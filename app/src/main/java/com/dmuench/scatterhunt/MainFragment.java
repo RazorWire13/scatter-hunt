@@ -1,17 +1,26 @@
 package com.dmuench.scatterhunt;
 
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.firebase.ui.auth.AuthUI;
@@ -27,6 +36,7 @@ import java.util.List;
 import androidx.navigation.Navigation;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.LOCATION_SERVICE;
 
 
 /**
@@ -35,6 +45,7 @@ import static android.app.Activity.RESULT_OK;
 public class MainFragment extends Fragment {
 
     private static final int RC_SIGN_IN = 3742;
+    private static final int PERMISSIONS_REQUEST = 100;
 
     public MainFragment() {
 
@@ -45,6 +56,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         Button signInButton = view.findViewById(R.id.btnGoToSignInView);
@@ -88,6 +100,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
         Button btnGoToSetupFragment = view.findViewById(R.id.btnGoToSetupFragment);
         Button btnGoToCreateGoalFragment = view.findViewById(R.id.btnGoToCreateGoalFragment);
@@ -95,7 +108,7 @@ public class MainFragment extends Fragment {
         btnGoToSetupFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.setupFragmentAction);
+                Navigation.findNavController(view).navigate(R.id.setupFragment);
             }
         });
 
@@ -105,6 +118,57 @@ public class MainFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.createGoalAction);
             }
         });
+
+        // START OF LOCATION SERVICES
+
+        //Check whether GPS tracking is enabled//
+        Activity activity = getActivity();
+        LocationManager lm = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
+        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            activity.finish();
+        }
+
+        //Check whether this app has access to the location permission//
+
+        int permission = ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION);
+
+//If the location permission has been granted, then start the TrackerService//
+
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+            startTrackerService();
+        } else {
+
+//If the app doesn’t currently have access to the user’s location, then request access//
+
+            requestPermissions(
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST);
+        }
+
+
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
+            grantResults) {
+
+        Log.d("PERMISSIONRESULT", "Received Result From Location Permission");
+
+//If the permission has been granted...//
+
+        if (requestCode == PERMISSIONS_REQUEST && grantResults.length == 1
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+//...then start the GPS tracking service//
+            startTrackerService();
+        } else {
+
+//If the user denies the permission request, then display a toast with some more information//
+            Log.d("TOASTS", "Denied Permissions Toast Should Happen Here");
+            Toast.makeText(getActivity(), "Scatterhunt Requires Location Services, Please Enable Location Permission", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -136,6 +200,23 @@ public class MainFragment extends Fragment {
                 // ...
             }
         }
+    }
+
+    //Start the TrackerService//
+
+    private void startTrackerService() {
+
+        Log.d("TRACKER", "Start Tracker Services Permission Enabled");
+//        Context context = getContext();
+//        context.startService(new Intent(this, TrackingService.class));
+//
+//        //Notify the user that tracking has been enabled
+//
+//        Toast.makeText(context, "GPS tracking enabled", Toast.LENGTH_SHORT).show();
+//
+//        //Close MainActivity
+//
+//        getActivity().finish();
     }
 
 
