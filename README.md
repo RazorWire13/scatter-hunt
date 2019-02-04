@@ -7,20 +7,21 @@ Each list item displays a set of clues and the distance they are from the user (
 To accomplish a goal, the user must answer a question that is unique to an object at the goal they are headed to and input the answer in the list item. When all the goals have been visited and answers provided, Users are then redirected to a results view that displays stats on how they did while on the hunt!
 
 ### Project SetUp
-- [User Stories](/project-assets/readmes/userStories.md) `forthcoming`
-- [Group Agreement](/project-assets/readmes/groupAgreement.md) `forthcoming`
-- [Wire-Frames](/project-assets/readmes/wire-frames.md) `forthcoming`
+- [Wire-Frames (built on Moqups)](https://app.moqups.com/baneblade13@googlemail.com/OnBW3IthIY/view)
 
 ## Project Timeline
+2/2/19
+- Completed user authentication with Firebase Firestore
+- Created basic UI views
 
 
 ## Deployment & Source
-- [Heroku site:] `forthcoming`
-- [ScatterHunt Backend Repo](https://github.com/RazorWire13/scatter-hunt-backend)
+- [Google Play Store Deployment] `forthcoming`
 
 ## External Resources
 * [Baeldung](https://www.baeldung.com/)
 * [Spring Initializr](https://start.spring.io/) (uses dependencies: Web, devTools, postgreSQL, JPA, Security)
+* https://developer.android.com/training/location/geofencing
 
 ## Creators
 [Dave Muench](https://github.com/RazorWire13) | [Zahra Mohamed](https://github.com/zahram1087) | [Daniel Logerstedt](https://github.com/daniellogerstedt) | [Mason Bassett](https://github.com/bassettmason)
