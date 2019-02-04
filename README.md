@@ -71,6 +71,7 @@ view that displays stats on how they did while on the hunt!
 ## External Resources
 * [Baeldung](https://www.baeldung.com/)
 * [Spring Initializr](https://start.spring.io/) (uses dependencies: Web, devTools, postgreSQL, JPA, Security)
+* [Location Tracking Information](https://www.androidauthority.com/create-a-gps-tracking-application-with-firebase-realtime-databse-844343/) (Article on how to build interval based location updates)
 
 ## Creators
 [Dave Muench](https://github.com/RazorWire13) | [Zahra Mohamed](https://github.com/zahram1087) | [Daniel Logerstedt](https://github.com/daniellogerstedt) | [Mason Bassett](https://github.com/bassettmason)

@@ -6,8 +6,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -207,15 +214,46 @@ public class MainFragment extends Fragment {
     private void startTrackerService() {
 
         Log.d("TRACKER", "Start Tracker Services Permission Enabled");
-//        Context context = getContext();
-//        context.startService(new Intent(this, TrackingService.class));
-//
-//        //Notify the user that tracking has been enabled
-//
-//        Toast.makeText(context, "GPS tracking enabled", Toast.LENGTH_SHORT).show();
-//
-//        //Close MainActivity
-//
+
+        LocationRequest request = new LocationRequest();
+
+//Specify how often your app should request the device’s location//
+
+        request.setInterval(10000);
+
+        //Get the most accurate location data available//
+
+        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getContext());
+        int permission = ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION);
+
+//If the app currently has access to the location permission...//
+
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+
+//...then request location updates//
+
+            client.requestLocationUpdates(request, new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+
+//Get a reference to the database, so your app can perform read and write operations//
+
+                    Location location = locationResult.getLastLocation();
+                    if (location != null) {
+
+                        Log.i("LATITUDE", Double.toString(location.getLatitude()));
+                        Log.i("LONGITUDE", Double.toString(location.getLongitude()));
+                        // TODO: Do Something With The Location To Check The Distance From The Goals.
+
+//Save the location data to the database//
+                    }
+                }
+            }, null);
+        }
+
+        //
 //        getActivity().finish();
     }
 
