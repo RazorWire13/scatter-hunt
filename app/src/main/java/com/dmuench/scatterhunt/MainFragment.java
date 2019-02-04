@@ -245,6 +245,7 @@ public class MainFragment extends Fragment {
 
                         Log.i("LATITUDE", Double.toString(location.getLatitude()));
                         Log.i("LONGITUDE", Double.toString(location.getLongitude()));
+                        // TODO: Do Something With The Location To Check The Distance From The Goals.
 
 //Save the location data to the database//
                     }
