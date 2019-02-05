@@ -17,6 +17,10 @@ import android.view.ViewGroup;
 
 import com.dmuench.scatterhunt.formsteps.ClueStep;
 import com.dmuench.scatterhunt.formsteps.TitleStep;
+import com.dmuench.scatterhunt.models.Goal;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 /**
@@ -28,6 +32,7 @@ public class CreateGoalFragment extends Fragment implements StepperFormListener 
     private ClueStep clueStepOne;
     private ClueStep clueStepTwo;
     private ClueStep clueStepThree;
+    private Bundle state;
 
     private VerticalStepperFormView verticalStepperForm;
 
@@ -39,6 +44,7 @@ public class CreateGoalFragment extends Fragment implements StepperFormListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        state = savedInstanceState;
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_goal, container, false);
     }
@@ -65,6 +71,14 @@ public class CreateGoalFragment extends Fragment implements StepperFormListener 
         Log.i("FORM CLUE ONE", clueStepOne.getStepData());
         Log.i("FORM CLUE TWO", clueStepTwo.getStepData());
         Log.i("FORM CLUE THREE", clueStepThree.getStepData());
+        Log.i("LATITUDE", Double.toString(state.getDouble("latitude")));
+        Log.i("LONGITUDE", Double.toString(state.getDouble("longitude")));
+
+        String[] clues = new String[]{clueStepOne.getStepData(),  clueStepTwo.getStepData(), clueStepThree.getStepData()};
+        Goal goal = new Goal(titleStep.getStepData(), state.getDouble("latitude"),state.getDouble("longitude"),5, clues , FirebaseAuth.getInstance().getCurrentUser());
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Goals").add(goal);
+
 
         // TODO: Do Some Firebase Firestore Things.
     }

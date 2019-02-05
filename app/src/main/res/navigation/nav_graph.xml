@@ -31,7 +31,12 @@
         android:id="@+id/addGoal"
         android:name="com.dmuench.scatterhunt.CreateGoalFragment"
         android:label="fragment_add_goal"
-        tools:layout="@layout/fragment_create_goal" />
+        tools:layout="@layout/fragment_create_goal" >
+        <argument
+            android:name="longitude" />
+        <argument
+            android:name="latitude" />
+    </fragment>
     <fragment
         android:id="@+id/playFragment"
         android:name="com.dmuench.scatterhunt.PlayFragment"
