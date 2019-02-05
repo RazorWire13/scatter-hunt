@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormView;
 import ernestoyaquello.com.verticalstepperform.listener.StepperFormListener;
 
@@ -14,12 +15,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.dmuench.scatterhunt.formsteps.ClueStep;
 import com.dmuench.scatterhunt.formsteps.TitleStep;
 import com.dmuench.scatterhunt.models.Goal;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -44,7 +45,7 @@ public class CreateGoalFragment extends Fragment implements StepperFormListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        state = savedInstanceState;
+        state = getArguments();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_goal, container, false);
     }
@@ -71,21 +72,33 @@ public class CreateGoalFragment extends Fragment implements StepperFormListener 
         Log.i("FORM CLUE ONE", clueStepOne.getStepData());
         Log.i("FORM CLUE TWO", clueStepTwo.getStepData());
         Log.i("FORM CLUE THREE", clueStepThree.getStepData());
-        Log.i("LATITUDE", Double.toString(state.getDouble("latitude")));
-        Log.i("LONGITUDE", Double.toString(state.getDouble("longitude")));
+        Log.i("FORM LATITUDE", state.getString("latitude"));
+        Log.i("FORM LONGITUDE", state.getString("longitude"));
 
-        String[] clues = new String[]{clueStepOne.getStepData(),  clueStepTwo.getStepData(), clueStepThree.getStepData()};
-        Goal goal = new Goal(titleStep.getStepData(), state.getDouble("latitude"),state.getDouble("longitude"),5, clues , FirebaseAuth.getInstance().getCurrentUser());
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Goals").add(goal);
+        String latitude, longitude;
+        latitude = state.getString("latitude");
+        longitude = state.getString("longitude");
+
+        if (latitude == null || longitude == null)
+            Toast.makeText(getContext(), "Location Data Not Available - Please Ensure Location Is Enabled", Toast.LENGTH_SHORT).show();
+        else {
+
+            String[] clues = new String[]{clueStepOne.getStepData(), clueStepTwo.getStepData(), clueStepThree.getStepData()};
+            Goal goal = new Goal(titleStep.getStepData(), Double.parseDouble(latitude), Double.parseDouble(longitude), 5, clues, FirebaseAuth.getInstance().getCurrentUser());
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("Goals").add(goal);
+
+            Navigation.findNavController(getView()).navigate(R.id.returnToMainFragment);
 
 
-        // TODO: Do Some Firebase Firestore Things.
+
+
+//             TODO: Do Some Firebase Firestore Things. DONE
+        }
     }
 
     @Override
     public void onCancelledForm() {
-        Activity activity = getActivity();
-        activity.finish();
+        Navigation.findNavController(getView()).navigate(R.id.returnToMainFragment);
     }
 }

@@ -36,6 +36,9 @@
             android:name="longitude" />
         <argument
             android:name="latitude" />
+        <action
+            android:id="@+id/returnToMainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/playFragment"

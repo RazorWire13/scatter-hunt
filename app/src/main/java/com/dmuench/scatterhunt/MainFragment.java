@@ -66,7 +66,6 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        state = savedInstanceState;
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
@@ -127,6 +126,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        state = savedInstanceState != null? savedInstanceState : new Bundle();
 
         super.onViewCreated(view, savedInstanceState);
         Button btnGoToSetupFragment = view.findViewById(R.id.btnGoToSetupFragment);
@@ -261,8 +261,8 @@ public class MainFragment extends Fragment {
 
                     location = locationResult.getLastLocation();
                     if (location != null) {
-                        state.putDouble("latitude", location.getLatitude());
-                        state.putDouble("longitude", location.getLongitude());
+                        state.putString("latitude", Double.toString(location.getLatitude()));
+                        state.putString("longitude", Double.toString(location.getLongitude()));
 
                         Log.i("LATITUDE", Double.toString(location.getLatitude()));
                         Log.i("LONGITUDE", Double.toString(location.getLongitude()));
