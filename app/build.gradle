@@ -43,6 +43,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.firebaseui/firebase-ui-auth
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.ernestoyaquello.stepperform:vertical-stepper-form:2.1.1'
 
 
 }
