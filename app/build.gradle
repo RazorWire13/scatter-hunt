@@ -32,6 +32,9 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
 
+    //ui library for play screen
+    implementation 'com.diegodobelo.expandingview:expanding-view:0.9.4'
+
     // Navigation component support
     def nav_version = "1.0.0-alpha11"
 

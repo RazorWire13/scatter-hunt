@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,13 +42,16 @@ public class SetupFragment extends Fragment implements AdapterView.OnItemSelecte
 
         Button btnGoToPlayFragment = view.findViewById(R.id.btnGoToPlayFragment);
 
+
+
         btnGoToPlayFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: use next line when play screen created
-//                Navigation.findNavController(view).navigate(R.id.toPlayScreen);
+                Navigation.findNavController(view).navigate(R.id.playFragmentAction);
             }
         });
+
+
 
         return view;
     }
