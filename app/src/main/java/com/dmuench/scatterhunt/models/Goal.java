@@ -1,6 +1,7 @@
 package com.dmuench.scatterhunt.models;
 
 import com.firebase.ui.auth.data.model.User;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Goal {
     private String title;
@@ -10,11 +11,11 @@ public class Goal {
     private String clueOne;
     private String clueTwo;
     private String clueThree;
-    private User createdBy;
+    private FirebaseUser createdBy;
 
     public Goal () {}
 
-    public Goal (String title, double latitude, double longitude, int geoDistance, String[] clues, User user) {
+    public Goal (String title, double latitude, double longitude, int geoDistance, String[] clues, FirebaseUser user) {
         this.title = title;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -56,7 +57,7 @@ public class Goal {
         return clueThree;
     }
 
-    public User getCreatedBy() {
+    public FirebaseUser getCreatedBy() {
         return createdBy;
     }
 
@@ -90,7 +91,7 @@ public class Goal {
         this.clueThree = clueThree;
     }
 
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(FirebaseUser createdBy) {
         this.createdBy = createdBy;
     }
 }

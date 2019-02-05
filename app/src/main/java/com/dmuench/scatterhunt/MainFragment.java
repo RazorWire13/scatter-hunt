@@ -54,6 +54,8 @@ public class MainFragment extends Fragment {
 
     private static final int RC_SIGN_IN = 3742;
     private static final int PERMISSIONS_REQUEST = 100;
+    private Location location;
+    private Bundle state;
 
     public MainFragment() {
 
@@ -64,6 +66,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        state = savedInstanceState;
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
@@ -72,8 +75,6 @@ public class MainFragment extends Fragment {
         final Button createGoalButton = view.findViewById(R.id.btnGoToCreateGoalFragment);
         final FirebaseAuth auth = FirebaseAuth.getInstance();
 
-
-        Log.d("SIGN IN STATUS", auth.getCurrentUser().toString());
 
         if (auth.getCurrentUser() == null) {
             welcomeView.setText("NOT LOGGED IN");
@@ -141,7 +142,7 @@ public class MainFragment extends Fragment {
         btnGoToCreateGoalFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.createGoalAction);
+                Navigation.findNavController(view).navigate(R.id.createGoalAction, state);
             }
         });
 
@@ -258,8 +259,10 @@ public class MainFragment extends Fragment {
 
 //Get a reference to the database, so your app can perform read and write operations//
 
-                    Location location = locationResult.getLastLocation();
+                    location = locationResult.getLastLocation();
                     if (location != null) {
+                        state.putDouble("latitude", location.getLatitude());
+                        state.putDouble("longitude", location.getLongitude());
 
                         Log.i("LATITUDE", Double.toString(location.getLatitude()));
                         Log.i("LONGITUDE", Double.toString(location.getLongitude()));
