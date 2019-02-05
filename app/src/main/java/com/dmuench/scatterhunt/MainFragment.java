@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -58,7 +59,7 @@ public class MainFragment extends Fragment {
 
     }
 
-    public Boolean signInStatus = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +67,28 @@ public class MainFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        Button signInButton = view.findViewById(R.id.btnGoToSignInView);
+        final TextView welcomeView = view.findViewById(R.id.loggedInUserTextView);
+        final Button signInButton = view.findViewById(R.id.btnGoToSignInView);
+        final Button createGoalButton = view.findViewById(R.id.btnGoToCreateGoalFragment);
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
+
+
+        Log.d("SIGN IN STATUS", auth.getCurrentUser().toString());
+
+        if (auth.getCurrentUser() == null) {
+            welcomeView.setText("NOT LOGGED IN");
+            signInButton.setText("Sign Up/Sign In");
+            createGoalButton.setVisibility(View.GONE);
+        } else {
+            welcomeView.setText(auth.getCurrentUser().getDisplayName());
+            signInButton.setText("Logout");
+            createGoalButton.setVisibility(View.VISIBLE);
+        }
+
+
+
+
+
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,21 +97,18 @@ public class MainFragment extends Fragment {
                 List<AuthUI.IdpConfig> providers = Arrays.asList(
                         new AuthUI.IdpConfig.EmailBuilder().build());
 
-                if (signInStatus) {
+                if (auth.getCurrentUser() != null) {
                     AuthUI.getInstance()
                             .signOut(getContext())
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    TextView welcomeView = getView().findViewById(R.id.loggedInUserTextView);
                                     welcomeView.setText("NOT LOGGED IN");
-                                    Button signInButton = getView().findViewById(R.id.btnGoToSignInView);
-                                    signInButton.setText("Sign Up");
-                                    Button addHuntsButton = getView().findViewById(R.id.btnGoToCreateGoalFragment);
-                                    addHuntsButton.setVisibility(View.GONE);
+                                    signInButton.setText("Sign Up/Sign In");
+                                    createGoalButton.setVisibility(View.GONE);
                                 }
                             });
-                }
-                if (!signInStatus) {
+
+                } else {
 
 // Create and launch sign-in intent
                     startActivityForResult(
@@ -194,7 +213,6 @@ public class MainFragment extends Fragment {
 
                 Button signInButton = getView().findViewById(R.id.btnGoToSignInView);
                 signInButton.setText("Logout");
-                signInStatus = true;
                 Button addHuntsButton = getView().findViewById(R.id.btnGoToCreateGoalFragment);
                 addHuntsButton.setVisibility(View.VISIBLE);
 

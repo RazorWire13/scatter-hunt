@@ -72,6 +72,8 @@ view that displays stats on how they did while on the hunt!
 * [Baeldung](https://www.baeldung.com/)
 * [Spring Initializr](https://start.spring.io/) (uses dependencies: Web, devTools, postgreSQL, JPA, Security)
 * [Location Tracking Information](https://www.androidauthority.com/create-a-gps-tracking-application-with-firebase-realtime-databse-844343/) (Article on how to build interval based location updates)
+* [Expanding List Items](https://github.com/diegodobelo/AndroidExpandingViewLibrary/blob/master/README.md) (Used to create expanding goals in recycler view)
+* [Form Stepper](https://android-arsenal.com/details/1/3843) (Used to create new goals)
 
 ## Creators
 [Dave Muench](https://github.com/RazorWire13) | [Zahra Mohamed](https://github.com/zahram1087) | [Daniel Logerstedt](https://github.com/daniellogerstedt) | [Mason Bassett](https://github.com/bassettmason)
