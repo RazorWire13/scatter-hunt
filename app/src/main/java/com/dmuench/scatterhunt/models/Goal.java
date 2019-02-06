@@ -3,6 +3,7 @@ package com.dmuench.scatterhunt.models;
 import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseUser;
 
+// Goal class variables
 public class Goal {
     private String title;
     private double latitude;
@@ -15,6 +16,7 @@ public class Goal {
 
     public Goal () {}
 
+    // Goal constructor
     public Goal (String title, double latitude, double longitude, int geoDistance, String[] clues, FirebaseUser user) {
         this.title = title;
         this.latitude = latitude;
@@ -24,11 +26,9 @@ public class Goal {
         this.clueTwo = clues[1];
         this.clueThree = clues[2];
         this.createdBy = user;
-
     }
 
     // Getters
-
     public String getTitle() {
         return title;
     }
@@ -62,7 +62,6 @@ public class Goal {
     }
 
     // Setters
-
     public void setTitle(String title) {
         this.title = title;
     }

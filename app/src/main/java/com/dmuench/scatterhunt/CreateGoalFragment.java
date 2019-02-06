@@ -29,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
  */
 public class CreateGoalFragment extends Fragment implements StepperFormListener {
 
+    // CreateGoal Fragment class variables
     private TitleStep titleStep;
     private ClueStep clueStepOne;
     private ClueStep clueStepTwo;
