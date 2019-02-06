@@ -16,7 +16,7 @@
         app:destination="@id/setupFragment" />
         <action
             android:id="@+id/createGoalAction"
-            app:destination="@id/addGoal" />
+            app:destination="@id/createGoalFragment" />
     </fragment>
     <fragment
         android:id="@+id/setupFragment"
@@ -26,16 +26,17 @@
         <action
             android:id="@+id/playFragmentAction"
             app:destination="@id/playFragment" />
+        <action
+            android:id="@+id/action_setupFragment_to_instructionsFragment"
+            app:destination="@id/instructionsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addGoal"
+        android:id="@+id/createGoalFragment"
         android:name="com.dmuench.scatterhunt.CreateGoalFragment"
         android:label="fragment_add_goal"
-        tools:layout="@layout/fragment_create_goal" >
-        <argument
-            android:name="longitude" />
-        <argument
-            android:name="latitude" />
+        tools:layout="@layout/fragment_create_goal">
+        <argument android:name="longitude" />
+        <argument android:name="latitude" />
         <action
             android:id="@+id/returnToMainFragment"
             app:destination="@id/mainFragment" />
@@ -44,7 +45,17 @@
         android:id="@+id/playFragment"
         android:name="com.dmuench.scatterhunt.PlayFragment"
         android:label="fragment_play"
-        tools:layout="@layout/fragment_play" />
+        tools:layout="@layout/fragment_play" >
+        <action
+            android:id="@+id/done screen"
+            app:destination="@id/placeholder" />
+    </fragment>
+    <fragment
+        android:id="@+id/instructionsFragment"
+        android:name="com.dmuench.scatterhunt.InstructionsFragment"
+        android:label="fragment_instructions"
+        tools:layout="@layout/fragment_instructions" />
+    <fragment android:id="@+id/placeholder" />
 
 
 </navigation>
