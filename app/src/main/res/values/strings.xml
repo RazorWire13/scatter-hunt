@@ -5,7 +5,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="instructions">Instructions</string>
 
-    <string name="playfieldRangeError">At least 1 size must be selected</string>
+    <string name="playfieldRangeError">At least 1 range must be selected</string>
+    <string name="numberOfGoalsError">At least 1 goal must be selected</string>
 
     <string-array name="playfieldRange">
         <item>5</item>
@@ -16,17 +17,24 @@
     </string-array>
 
     <string-array name="playfieldRangeExtended">
-        <item>5 miles</item>
-        <item>10 miles</item>
-        <item>15 miles</item>
-        <item>20 miles</item>
+        <item>5 Miles</item>
+        <item>10 Miles</item>
+        <item>15 Miles</item>
+        <item>20 Miles</item>
+
+    </string-array>
+
+    <string-array name="numberOfGoalsExtended">
+        <item>One Goal</item>
+        <item>Two Goals</item>
+        <item>Three Goals</item>
 
     </string-array>
 
     <string-array name="numberOfGoals">
-        <item>One Hunt</item>
-        <item>Two Hunts</item>
-        <item>Three Hunts</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
 
     </string-array>
 </resources>

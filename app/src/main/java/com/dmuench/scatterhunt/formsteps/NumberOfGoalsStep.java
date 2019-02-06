@@ -21,7 +21,7 @@ import ernestoyaquello.com.verticalstepperform.Step;
 public class NumberOfGoalsStep extends Step<boolean[]> {
 
     private boolean[] numberOfGoals;
-    private View rangesStepContent;
+    private View numberOfGoalsStepContent;
 
     public NumberOfGoalsStep(String title) {
         this(title, "");
@@ -37,10 +37,10 @@ public class NumberOfGoalsStep extends Step<boolean[]> {
 
         // We create this step view by inflating an XML layout
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        rangesStepContent = inflater.inflate(R.layout.playfield_range_layout, null, false);
-        setupPlayfieldRanges();
+        numberOfGoalsStepContent = inflater.inflate(R.layout.number_of_goals_layout, null, false);
+        setupNumberOfGoals();
 
-        return rangesStepContent;
+        return numberOfGoalsStepContent;
     }
 
     @Override
@@ -70,103 +70,111 @@ public class NumberOfGoalsStep extends Step<boolean[]> {
 
     @Override
     public String getStepDataAsHumanReadableString() {
-        String[] weekRangeStrings = getContext().getResources().getStringArray(R.array.playfieldRangeExtended);
-        List<String> selectedWeekRangeStrings = new ArrayList<>();
-        for (int i = 0; i < weekRangeStrings.length; i++) {
+        String[] numberOfGoalsStrings = getContext().getResources().getStringArray(R.array.numberOfGoalsExtended);
+        List<String> selectedNumberOfGoals = new ArrayList<>();
+        for (int i = 0; i < numberOfGoalsStrings.length; i++) {
             if (numberOfGoals[i]) {
-                selectedWeekRangeStrings.add(weekRangeStrings[i]);
+                selectedNumberOfGoals.add(numberOfGoalsStrings[i]);
             }
         }
 
-        return TextUtils.join(", ", selectedWeekRangeStrings);
+        return TextUtils.join(", ", selectedNumberOfGoals);
     }
 
     @Override
     public void restoreStepData(boolean[] data) {
         numberOfGoals = data;
-        setupPlayfieldRanges();
+        setupNumberOfGoals();
     }
 
     @Override
     protected IsDataValid isStepDataValid(boolean[] stepData) {
-        boolean thereIsAtLeastOneRangeSelected = false;
-        for(int i = 0; i < stepData.length && !thereIsAtLeastOneRangeSelected; i++) {
+        boolean thereIsAtleastOneGoalSelected = false;
+        for(int i = 0; i < stepData.length && !thereIsAtleastOneGoalSelected; i++) {
             if(stepData[i]) {
-                thereIsAtLeastOneRangeSelected = true;
+                thereIsAtleastOneGoalSelected = true;
             }
         }
 
-        return thereIsAtLeastOneRangeSelected
-                ? new IsDataValid(true) : new IsDataValid(false, getContext().getString(R.string.playfieldRangeError));
+        return thereIsAtleastOneGoalSelected
+                ? new IsDataValid(true)
+                : new IsDataValid(false, getContext().getString(R.string.numberOfGoalsError));
     }
 
-    private void setupPlayfieldRanges() {
+    private void setupNumberOfGoals() {
         boolean firstSetup = numberOfGoals == null;
-        numberOfGoals = firstSetup ? new boolean[7] : numberOfGoals;
+        numberOfGoals = firstSetup ? new boolean[3] : numberOfGoals;
 
-        final String[] weekRanges = getContext().getResources().getStringArray(R.array.playfieldRange);
-        for(int i = 0; i < weekRanges.length; i++) {
+        final String[] numberOfGoals = getContext().getResources().getStringArray(R.array.numberOfGoals);
+        for(int i = 0; i < numberOfGoals.length; i++) {
             final int index = i;
-            final View dayLayout = getRangeLayout(index);
+            final View numberOfGoalsLayout = getNumberOfGoalsLayout(index);
 
             if (firstSetup) {
-                // By default, we only mark the working ranges as activated
-                numberOfGoals[index] = index < 5;
+                // By default, we mark the smallest number of goals activated
+                this.numberOfGoals[index] = index < 1;
             }
 
-            updateRangeLayout(index, dayLayout, false);
+            updateNumberOfGoalsLayout(index, numberOfGoalsLayout, false);
 
-            if (dayLayout != null) {
-                dayLayout.setOnClickListener(new View.OnClickListener() {
+            if (numberOfGoalsLayout != null) {
+                numberOfGoalsLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        numberOfGoals[index] = !numberOfGoals[index];
-                        updateRangeLayout(index, dayLayout, true);
+                        for (int i = 0; i < NumberOfGoalsStep.this.numberOfGoals.length; i++) {
+                            if (i == index) {
+                                NumberOfGoalsStep.this.numberOfGoals[index] = true;
+                                updateNumberOfGoalsLayout(index, numberOfGoalsLayout, true);
+                            } else {
+                                NumberOfGoalsStep.this.numberOfGoals[i] = false;
+                                updateNumberOfGoalsLayout(i, getNumberOfGoalsLayout(i), true);
+                            }
+                        }
                         markAsCompletedOrUncompleted(true);
                     }
                 });
 
-                final TextView dayText = dayLayout.findViewById(R.id.day);
-                dayText.setText(weekRanges[index]);
+                final TextView numberOfGoalsText = numberOfGoalsLayout.findViewById(R.id.option);
+                numberOfGoalsText.setText(numberOfGoals[index]);
             }
         }
     }
 
-    private View getRangeLayout(int i) {
-        int id = rangesStepContent.getResources().getIdentifier(
-                "day_" + i, "id", getContext().getPackageName());
-        return rangesStepContent.findViewById(id);
+    private View getNumberOfGoalsLayout(int i) {
+        int id = numberOfGoalsStepContent.getResources().getIdentifier(
+                "goal_" + i, "id", getContext().getPackageName());
+        return numberOfGoalsStepContent.findViewById(id);
     }
 
-    private void updateRangeLayout(int dayIndex, View dayLayout, boolean useAnimations) {
-        if (numberOfGoals[dayIndex]) {
-            markPlayfieldRange(dayIndex, dayLayout, useAnimations);
+    private void updateNumberOfGoalsLayout(int numberOfGoalsIndex, View numberOfGoalsLayout, boolean useAnimations) {
+        if (numberOfGoals[numberOfGoalsIndex]) {
+            markNumberOfGoals(numberOfGoalsIndex, numberOfGoalsLayout, useAnimations);
         } else {
-            unmarkPlayfieldRange(dayIndex, dayLayout, useAnimations);
+            unmarkNumberOfGoals(numberOfGoalsIndex, numberOfGoalsLayout, useAnimations);
         }
     }
 
-    private void markPlayfieldRange(int dayIndex, View dayLayout, boolean useAnimations) {
-        numberOfGoals[dayIndex] = true;
+    private void markNumberOfGoals(int numberOfGoalsIndex, View numberOfGoalsLayout, boolean useAnimations) {
+        numberOfGoals[numberOfGoalsIndex] = true;
 
-        if (dayLayout != null) {
+        if (numberOfGoalsLayout != null) {
             Drawable bg = ContextCompat.getDrawable(getContext(), ernestoyaquello.com.verticalstepperform.R.drawable.circle_step_done);
             int colorPrimary = ContextCompat.getColor(getContext(), R.color.colorPrimary);
             bg.setColorFilter(new PorterDuffColorFilter(colorPrimary, PorterDuff.Mode.SRC_IN));
-            dayLayout.setBackground(bg);
+            numberOfGoalsLayout.setBackground(bg);
 
-            TextView dayText = dayLayout.findViewById(R.id.day);
-            dayText.setTextColor(Color.rgb(255, 255, 255));
+            TextView numberOfGoalsText = numberOfGoalsLayout.findViewById(R.id.option);
+            numberOfGoalsText.setTextColor(Color.rgb(255, 255, 255));
         }
     }
 
-    private void unmarkPlayfieldRange(int dayIndex, View dayLayout, boolean useAnimations) {
-        numberOfGoals[dayIndex] = false;
+    private void unmarkNumberOfGoals(int numberOfGoalsIndex, View numberOfGoalsLayout, boolean useAnimations) {
+        numberOfGoals[numberOfGoalsIndex] = false;
 
-        dayLayout.setBackgroundResource(0);
+        numberOfGoalsLayout.setBackgroundResource(0);
 
-        TextView dayText = dayLayout.findViewById(R.id.day);
+        TextView numberOfGoalsText = numberOfGoalsLayout.findViewById(R.id.option);
         int colour = ContextCompat.getColor(getContext(), R.color.colorPrimary);
-        dayText.setTextColor(colour);
+        numberOfGoalsText.setTextColor(colour);
     }
 }

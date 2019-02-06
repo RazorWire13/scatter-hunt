@@ -47,7 +47,7 @@
         android:label="fragment_play"
         tools:layout="@layout/fragment_play" >
         <action
-            android:id="@+id/done screen"
+            android:id="@+id/game_end_screen"
             app:destination="@id/placeholder" />
     </fragment>
     <fragment

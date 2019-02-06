@@ -4,12 +4,9 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dmuench.scatterhunt.R;
@@ -24,7 +21,7 @@ import ernestoyaquello.com.verticalstepperform.Step;
 public class PlayfieldStep extends Step<boolean[]> {
 
     private boolean[] playfieldRanges;
-    private View rangesStepContent;
+    private View playfieldRangesStepContent;
 
     public PlayfieldStep(String title) {
         this(title, "");
@@ -40,10 +37,10 @@ public class PlayfieldStep extends Step<boolean[]> {
 
         // We create this step view by inflating an XML layout
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        rangesStepContent = inflater.inflate(R.layout.playfield_range_layout, null, false);
+        playfieldRangesStepContent = inflater.inflate(R.layout.playfield_range_layout, null, false);
         setupPlayfieldRanges();
 
-        return rangesStepContent;
+        return playfieldRangesStepContent;
     }
 
     @Override
@@ -73,15 +70,15 @@ public class PlayfieldStep extends Step<boolean[]> {
 
     @Override
     public String getStepDataAsHumanReadableString() {
-        String[] weekRangeStrings = getContext().getResources().getStringArray(R.array.playfieldRangeExtended);
-        List<String> selectedWeekRangeStrings = new ArrayList<>();
-        for (int i = 0; i < weekRangeStrings.length; i++) {
+        String[] playfieldRangesStrings = getContext().getResources().getStringArray(R.array.playfieldRangeExtended);
+        List<String> selectedPlayfieldRanges = new ArrayList<>();
+        for (int i = 0; i < playfieldRangesStrings.length; i++) {
             if (playfieldRanges[i]) {
-                selectedWeekRangeStrings.add(weekRangeStrings[i]);
+                selectedPlayfieldRanges.add(playfieldRangesStrings[i]);
             }
         }
 
-        return TextUtils.join(", ", selectedWeekRangeStrings);
+        return TextUtils.join(", ", selectedPlayfieldRanges);
     }
 
     @Override
@@ -92,84 +89,92 @@ public class PlayfieldStep extends Step<boolean[]> {
 
     @Override
     protected IsDataValid isStepDataValid(boolean[] stepData) {
-        boolean thereIsAtLeastOneRangeSelected = false;
-        for(int i = 0; i < stepData.length && !thereIsAtLeastOneRangeSelected; i++) {
+        boolean thereIsAtLeastOneDaySelected = false;
+        for(int i = 0; i < stepData.length && !thereIsAtLeastOneDaySelected; i++) {
             if(stepData[i]) {
-                thereIsAtLeastOneRangeSelected = true;
+                thereIsAtLeastOneDaySelected = true;
             }
         }
 
-        return thereIsAtLeastOneRangeSelected
-                ? new IsDataValid(true) : new IsDataValid(false, getContext().getString(R.string.playfieldRangeError));
+        return thereIsAtLeastOneDaySelected
+                ? new IsDataValid(true)
+                : new IsDataValid(false, getContext().getString(R.string.playfieldRangeError));
     }
 
     private void setupPlayfieldRanges() {
         boolean firstSetup = playfieldRanges == null;
-        playfieldRanges = firstSetup ? new boolean[7] : playfieldRanges;
+        playfieldRanges = firstSetup ? new boolean[4] : playfieldRanges;
 
-        final String[] weekRanges = getContext().getResources().getStringArray(R.array.playfieldRange);
-        for(int i = 0; i < weekRanges.length; i++) {
+        final String[] playfieldRanges = getContext().getResources().getStringArray(R.array.playfieldRange);
+        for(int i = 0; i < playfieldRanges.length; i++) {
             final int index = i;
-            final View dayLayout = getRangeLayout(index);
+            final View rangeLayout = getRangeLayout(index);
 
             if (firstSetup) {
-                // By default, we only mark the working ranges as activated
-                playfieldRanges[index] = index < 5;
+                // By default, we mark the smallest playfield activated
+                this.playfieldRanges[index] = index < 1;
             }
 
-            updateRangeLayout(index, dayLayout, false);
+            updateRangeLayout(index, rangeLayout, false);
 
-            if (dayLayout != null) {
-                dayLayout.setOnClickListener(new View.OnClickListener() {
+            if (rangeLayout != null) {
+                rangeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        playfieldRanges[index] = !playfieldRanges[index];
-                        updateRangeLayout(index, dayLayout, true);
+                        for (int i = 0; i < PlayfieldStep.this.playfieldRanges.length; i++) {
+                            if (i == index) {
+                                PlayfieldStep.this.playfieldRanges[index] = true;
+                                updateRangeLayout(index, rangeLayout, true);
+                            } else {
+                                PlayfieldStep.this.playfieldRanges[i] = false;
+                                updateRangeLayout(i, getRangeLayout(i), true);
+                            }
+                        }
                         markAsCompletedOrUncompleted(true);
                     }
                 });
 
-                final TextView dayText = dayLayout.findViewById(R.id.day);
-                dayText.setText(weekRanges[index]);
+                final TextView rangeText = rangeLayout.findViewById(R.id.option);
+                rangeText.setText(playfieldRanges[index]);
             }
         }
     }
 
     private View getRangeLayout(int i) {
-        int id = rangesStepContent.getResources().getIdentifier(
-                "day_" + i, "id", getContext().getPackageName());
-        return rangesStepContent.findViewById(id);
+        int id = playfieldRangesStepContent.getResources().getIdentifier(
+                "range_" + i, "id", getContext().getPackageName());
+        return playfieldRangesStepContent.findViewById(id);
     }
 
-    private void updateRangeLayout(int dayIndex, View dayLayout, boolean useAnimations) {
-        if (playfieldRanges[dayIndex]) {
-            markPlayfieldRange(dayIndex, dayLayout, useAnimations);
+    private void updateRangeLayout(int rangeIndex, View rangeLayout, boolean useAnimations) {
+        if (playfieldRanges[rangeIndex]) {
+            markPlayfieldRange(rangeIndex, rangeLayout, useAnimations);
         } else {
-            unmarkPlayfieldRange(dayIndex, dayLayout, useAnimations);
+            unmarkPlayfieldRange(rangeIndex, rangeLayout, useAnimations);
         }
     }
 
-    private void markPlayfieldRange(int dayIndex, View dayLayout, boolean useAnimations) {
-        playfieldRanges[dayIndex] = true;
+    private void markPlayfieldRange(int rangeIndex, View rangeLayout, boolean useAnimations) {
+        playfieldRanges[rangeIndex] = true;
 
-        if (dayLayout != null) {
+        if (rangeLayout != null) {
             Drawable bg = ContextCompat.getDrawable(getContext(), ernestoyaquello.com.verticalstepperform.R.drawable.circle_step_done);
             int colorPrimary = ContextCompat.getColor(getContext(), R.color.colorPrimary);
             bg.setColorFilter(new PorterDuffColorFilter(colorPrimary, PorterDuff.Mode.SRC_IN));
-            dayLayout.setBackground(bg);
+            rangeLayout.setBackground(bg);
 
-            TextView dayText = dayLayout.findViewById(R.id.day);
-            dayText.setTextColor(Color.rgb(255, 255, 255));
+            TextView rangeText = rangeLayout.findViewById(R.id.option);
+            rangeText.setTextColor(Color.rgb(255, 255, 255));
         }
     }
 
-    private void unmarkPlayfieldRange(int dayIndex, View dayLayout, boolean useAnimations) {
-        playfieldRanges[dayIndex] = false;
+    private void unmarkPlayfieldRange(int rangeIndex, View rangeLayout, boolean useAnimations) {
+        playfieldRanges[rangeIndex] = false;
 
-        dayLayout.setBackgroundResource(0);
+        rangeLayout.setBackgroundResource(0);
 
-        TextView dayText = dayLayout.findViewById(R.id.day);
+        TextView rangeText = rangeLayout.findViewById(R.id.option);
         int colour = ContextCompat.getColor(getContext(), R.color.colorPrimary);
-        dayText.setTextColor(colour);
+        rangeText.setTextColor(colour);
     }
 }
