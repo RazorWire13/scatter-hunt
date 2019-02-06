@@ -74,6 +74,7 @@ view that displays stats on how they did while on the hunt!
 * [Location Tracking Information](https://www.androidauthority.com/create-a-gps-tracking-application-with-firebase-realtime-databse-844343/) (Article on how to build interval based location updates)
 * [Expanding List Items](https://github.com/diegodobelo/AndroidExpandingViewLibrary/blob/master/README.md) (Used to create expanding goals in recycler view)
 * [Form Stepper](https://android-arsenal.com/details/1/3843) (Used to create new goals)
+* [Espresso Test Recorder](https://developer.android.com/studio/test/espresso-test-recorder)
 
 ## Creators
 [Dave Muench](https://github.com/RazorWire13) | [Zahra Mohamed](https://github.com/zahram1087) | [Daniel Logerstedt](https://github.com/daniellogerstedt) | [Mason Bassett](https://github.com/bassettmason)

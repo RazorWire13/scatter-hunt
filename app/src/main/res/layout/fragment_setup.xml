@@ -35,8 +35,10 @@
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="216dp"
+        android:layout_marginBottom="34dp"
         android:text="Select a Playfield Range:"
+        app:layout_constraintBottom_toTopOf="@+id/goalsTextView"
         app:layout_constraintEnd_toStartOf="@+id/pulldownMenuPlayfield"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,18 +48,24 @@
         android:id="@+id/pulldownMenuPlayfield"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:layout_marginTop="252dp"
+        android:layout_marginTop="216dp"
         android:layout_marginEnd="100dp"
+        android:layout_marginBottom="37dp"
+        app:layout_constraintBottom_toTopOf="@+id/pulldownMenuGoals"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/rangeTextView"
         app:layout_constraintTop_toBottomOf="@+id/instructionTextView" />
 
     <TextView
         android:id="@+id/goalsTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="151dp"
         android:layout_height="39dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="40dp"
         android:text="Select a Number Goals:"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoToPlayFragment"
         app:layout_constraintEnd_toStartOf="@+id/pulldownMenuGoals"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rangeTextView" />
@@ -66,9 +74,10 @@
         android:id="@+id/pulldownMenuGoals"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="143dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/goalsTextView"
         app:layout_constraintTop_toBottomOf="@+id/pulldownMenuPlayfield" />
 
@@ -81,10 +90,9 @@
         android:text="Start Game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goalsTextView"
-        app:layout_constraintVertical_bias="0.154" />
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
