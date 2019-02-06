@@ -1,8 +1,8 @@
 # ScatterHunt
 ### Project Overview:
-ScatterHunt is a mobile-enabled scavenger hunt Android app that allows users the opportunity to plot their own route strategies to find all the goal locations they are given. The app uses geo-tagged locations as goals when a game starts and provides those goals as a list to a user for them to accomplish.
+**ScatterHunt** is a mobile scavenger hunt Android app that allows users the opportunity to plot their own route strategies to find all the goal locations they are given. The app uses geo-tagged locations as goals within the game and displays those goals as expandable lists to a user for them to accomplish in any order they decide.
 
-Each list item displays a set of clues and the distance they are from the user (but not the direction). This means users need to have a concept of where they are going to accomplish each geo-goal before they start running off and creates a new dimension of optimization not found in other scavenger hunt games.
+Each goal list item displays a set of clues and the distance they are located relative to the user's current position (but not the direction). This means users need, based on the clues provided, should have a concept of where they are going to accomplish each geo-goal before they run off to complete their hunt. This creates a new dimension of optimization not found in other scavenger hunt games.
 
 To accomplish a goal, the user must answer a question that is unique to an object at the goal they are headed to and input the answer in the list item. When all the goals have been visited and answers provided, Users are then redirected to a results 
 view that displays stats on how they did while on the hunt!
@@ -20,18 +20,14 @@ view that displays stats on how they did while on the hunt!
 - As a Developer I should build an intuitive efficient way to store current game information; Including objective locations, starting time, and times when completed. (est 5 hrs)
   - Consideration: Use Firebase database to store game data once collected
   
-- As a developer I want to be able alert users when they are within the vacinity of a goal (est 3hrs)
+- As a developer I want to be able alert users when they are within the vicinity of a goal (est 3hrs)
   - Consideration: Will require the creation of a geo-fence around the goal that triggers an event notification to the user when crossed that they have reached a goal
   
 - As a developer I want to tell users their relative distance from the goals (est 2hr)
   - Consideration: May do the location distance calculation locally so that it doesn't require the phone to make a request every second to a backend. This will save on data for users as well as not bogging down a backend.
 
-### Project SetUp
-- [User Stories](/project-assets/readmes/userStories.md) `forthcoming linkage`
-- [Group Agreement](/project-assets/readmes/groupAgreement.md) `forthcoming linkage`
-- [Wire-Frames](/project-assets/readmes/wire-frames.md) `forthcoming linkage`
-
-## Project Timeline
+### Project Setup
+- [ScatterHunt Wire Frames](https://app.moqups.com/OnBW3IthIY/view) (moqups.com)
 
 ## ScatterHunt Group Agreement
 ### Communication plan
@@ -65,11 +61,10 @@ view that displays stats on how they did while on the hunt!
   - Ask for help after 15 minutes. **Be receptive for help.**
 
 ## Deployment & Source
-- [Heroku site:] `forthcoming`
-- [ScatterHunt Backend Repo](https://github.com/RazorWire13/scatter-hunt-backend)
+- [Google Play Store Deployemnt]() `Forthcoming`
 
 ## External Resources
-* [Baeldung](https://www.baeldung.com/)
+* [Baeldung](https://www.baeldung.com/)(General Java code assistance)
 * [Spring Initializr](https://start.spring.io/) (uses dependencies: Web, devTools, postgreSQL, JPA, Security)
 * [Location Tracking Information](https://www.androidauthority.com/create-a-gps-tracking-application-with-firebase-realtime-databse-844343/) (Article on how to build interval based location updates)
 * [Expanding List Items](https://github.com/diegodobelo/AndroidExpandingViewLibrary/blob/master/README.md) (Used to create expanding goals in recycler view)
