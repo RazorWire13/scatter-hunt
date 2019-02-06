@@ -75,9 +75,9 @@ public class CreateGoalFragment extends Fragment implements StepperFormListener 
         Log.i("FORM LATITUDE", state.getString("latitude"));
         Log.i("FORM LONGITUDE", state.getString("longitude"));
 
-        String latitude, longitude;
-        latitude = state.getString("latitude");
-        longitude = state.getString("longitude");
+
+        String latitude = state.getString("latitude");
+        String longitude = state.getString("longitude");
 
         if (latitude == null || longitude == null)
             Toast.makeText(getContext(), "Location Data Not Available - Please Ensure Location Is Enabled", Toast.LENGTH_SHORT).show();
@@ -93,7 +93,7 @@ public class CreateGoalFragment extends Fragment implements StepperFormListener 
 
 
 
-//             TODO: Do Some Firebase Firestore Things. DONE
+
         }
     }
 
