@@ -8,6 +8,12 @@
     <string name="playfieldRangeError">At least 1 range must be selected</string>
     <string name="numberOfGoalsError">At least 1 goal must be selected</string>
 
+    <!-- IDs -->
+
+    <item type="id" name="goal1" />
+    <item type="id" name="goal2" />
+    <item type="id" name="goal3" />
+
     <string-array name="playfieldRange">
         <item>0.5</item>
         <item>1.0</item>
