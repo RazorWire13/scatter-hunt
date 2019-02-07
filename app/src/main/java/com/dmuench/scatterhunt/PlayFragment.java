@@ -157,7 +157,7 @@ public class PlayFragment extends Fragment {
 
         //This will create 3 items
         item.createSubItems(3);
-        item.setIndicatorColorRes(R.color.black);
+        item.setIndicatorColorRes(R.color.ivory);
         item.setIndicatorIconRes(R.drawable.goal_expander_icon);
 
 //get a sub item View
