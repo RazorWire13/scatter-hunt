@@ -1,16 +1,12 @@
 package com.dmuench.scatterhunt;
 
 
-import android.Manifest;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormView;
 import ernestoyaquello.com.verticalstepperform.listener.StepperFormListener;
 
@@ -21,15 +17,18 @@ import android.view.ViewGroup;
 
 import com.dmuench.scatterhunt.formsteps.NumberOfGoalsStep;
 import com.dmuench.scatterhunt.formsteps.PlayfieldStep;
-import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.GeofencingClient;
-import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.dmuench.scatterhunt.models.Goal;
+import com.dmuench.scatterhunt.tools.DeltaLatLong;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -39,12 +38,13 @@ public class SetupFragment extends Fragment implements StepperFormListener {
 
     private PlayfieldStep playfieldStep;
     private NumberOfGoalsStep numberOfGoalsStep;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
+    private String userId;
 
     private Bundle state;
 
     private VerticalStepperFormView verticalStepperForm;
-
-    private GeofencingClient mGeofencingClient;
 
     public SetupFragment() {
         // Required empty public constructor
@@ -63,6 +63,10 @@ public class SetupFragment extends Fragment implements StepperFormListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        userId = user == null? null : user.getUid();
+
         // Create the steps.
         playfieldStep = new PlayfieldStep("Playfield Range");
         numberOfGoalsStep = new NumberOfGoalsStep("Number of Goals");
@@ -77,33 +81,76 @@ public class SetupFragment extends Fragment implements StepperFormListener {
     @Override
     public void onCompletedForm() {
 
-        int playfieldRange = -1;
+        double playfieldRange = -1;
         int numberOfGoals = -1;
 
         boolean[] rangeArray = playfieldStep.getStepData();
         boolean[] goalsArray = numberOfGoalsStep.getStepData();
 
-        double latitude = MainActivity.location.getLatitude();
-        double longitude = MainActivity.location.getLongitude();
+        final double latitude = MainActivity.location.getLatitude();
+        final double longitude = MainActivity.location.getLongitude();
 
         Log.i("FORM LATITUDE", "Latitude: " + latitude);
         Log.i("FORM LONGITUDE", "Longitude: " + longitude);
 
         for (int i = 0; i < rangeArray.length; i++) {
             if (rangeArray[i]) {
-                playfieldRange = Integer.parseInt(getContext().getResources().getStringArray(R.array.playfieldRange)[i]);
+                playfieldRange = Double.parseDouble(getContext().getResources().getStringArray(R.array.playfieldRange)[i]);
             }
             if (i < goalsArray.length && goalsArray[i]) {
                 numberOfGoals = Integer.parseInt(getContext().getResources().getStringArray(R.array.numberOfGoals)[i]);
             }
         }
 
-        Log.i("FORM PLAYFIELD", Integer.toString(playfieldRange));
+        final double radius = playfieldRange;
+        final int goals = numberOfGoals;
+
+        Log.i("FORM PLAYFIELD", Double.toString(playfieldRange));
         Log.i("FORM NUM OF GOALS", Integer.toString(numberOfGoals));
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Goals").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<String> gameGoals = getGameGoals(queryDocumentSnapshots, radius, goals, latitude, longitude);
 
+                Bundle state = new Bundle();
+                state.putString("goalOne", gameGoals.get(0));
+                state.putString("goalTwo", gameGoals.size() > 1 ? gameGoals.get(1) : null);
+                state.putString("goalThree", gameGoals.size() > 2 ? gameGoals.get(2) : null);
+                Navigation.findNavController(getView()).navigate(R.id.playFragmentAction, state);
+            }
+
+        });
     }
 
+    public List<String> getGameGoals(QuerySnapshot queryDocumentSnapshots, final double playfieldRange, final int numberOfGoals, final double latitude, final double longitude) {
+        final List<String> goalsSelected = new ArrayList<>();
+        final List<DocumentSnapshot> goalsWithinPlayfield = new ArrayList<>();
+
+                for (DocumentSnapshot document: queryDocumentSnapshots) {
+                    Goal currentGoalSnapshot = document.toObject(Goal.class);
+                    if (currentGoalSnapshot.getCreatedBy() != userId) {
+                        if (DeltaLatLong.distance(latitude, longitude, currentGoalSnapshot.getLatitude(), currentGoalSnapshot.getLongitude(), "km") <= playfieldRange) goalsWithinPlayfield.add(document);
+                    }
+                }
+                for (int i = 0; i < numberOfGoals; i++) {
+                    int indexToGrab = getRandomNumberInRange(0, goalsWithinPlayfield.size());
+
+                    goalsSelected.add(goalsWithinPlayfield.get(indexToGrab).getId());
+                }
+        return goalsSelected;
+    }
+
+    private static int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
 
     @Override
     public void onCancelledForm() {

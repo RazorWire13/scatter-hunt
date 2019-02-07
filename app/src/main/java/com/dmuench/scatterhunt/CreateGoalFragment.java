@@ -90,7 +90,7 @@ public class CreateGoalFragment extends Fragment implements StepperFormListener 
         else {
 
             String[] clues = new String[]{clueStepOne.getStepData(), clueStepTwo.getStepData(), clueStepThree.getStepData()};
-            Goal goal = new Goal(titleStep.getStepData(), latitude, longitude, 5, clues, FirebaseAuth.getInstance().getCurrentUser());
+            Goal goal = new Goal(titleStep.getStepData(), latitude, longitude, 5, clues, FirebaseAuth.getInstance().getCurrentUser().getUid());
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("Goals").add(goal);
 

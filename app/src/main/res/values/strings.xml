@@ -9,18 +9,18 @@
     <string name="numberOfGoalsError">At least 1 goal must be selected</string>
 
     <string-array name="playfieldRange">
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>20</item>
+        <item>0.5</item>
+        <item>1.0</item>
+        <item>1.5</item>
+        <item>2.0</item>
 
     </string-array>
 
     <string-array name="playfieldRangeExtended">
-        <item>5 Miles</item>
-        <item>10 Miles</item>
-        <item>15 Miles</item>
-        <item>20 Miles</item>
+        <item>0.5 Miles</item>
+        <item>1.0 Miles</item>
+        <item>1.5 Miles</item>
+        <item>2.0 Miles</item>
 
     </string-array>
 

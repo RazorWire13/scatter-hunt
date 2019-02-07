@@ -12,12 +12,12 @@ public class Goal {
     private String clueOne;
     private String clueTwo;
     private String clueThree;
-    private FirebaseUser createdBy;
+    private String createdBy;
 
     public Goal () {}
 
     // Goal constructor
-    public Goal (String title, double latitude, double longitude, int geoDistance, String[] clues, FirebaseUser user) {
+    public Goal (String title, double latitude, double longitude, int geoDistance, String[] clues, String user) {
         this.title = title;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -57,7 +57,7 @@ public class Goal {
         return clueThree;
     }
 
-    public FirebaseUser getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
@@ -90,7 +90,7 @@ public class Goal {
         this.clueThree = clueThree;
     }
 
-    public void setCreatedBy(FirebaseUser createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 }
