@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,8 @@ public class PlayFragment extends Fragment {
 
     private ExpandingList expandingList;
     private String[] goals;
+    private List<Goal> goalObjects;
+    private boolean[] completeGoals;
     private Location location;
     private double[] latitudes;
     private double[] longitudes;
@@ -52,7 +55,7 @@ public class PlayFragment extends Fragment {
 
         final LocationRun locationRun = new LocationRun();
 
-
+        goalObjects = new ArrayList<>();
         Bundle state = getArguments();
         latitudes = new double[3];
         longitudes = new double[3];
@@ -69,6 +72,7 @@ public class PlayFragment extends Fragment {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Goal goal = documentSnapshot.toObject(Goal.class);
+                        goalObjects.add(goal);
                         latitudes[finalI] = goal.getLatitude();
                         longitudes[finalI] = goal.getLongitude();
 
@@ -79,7 +83,10 @@ public class PlayFragment extends Fragment {
 
                         addItem(title, new String[]{clueOne, clueTwo, clueThree}, finalI);
 
-                        if (finalI == goals.length - 1) new Thread(locationRun).start();
+                        if (finalI == goals.length - 1) {
+                            completeGoals = new boolean[goalObjects.size()];
+                            new Thread(locationRun).start();
+                        }
                     }
                 });
             }
@@ -94,26 +101,46 @@ public class PlayFragment extends Fragment {
                 location = MainActivity.location;
 
                 // Must Have Because: Only the original thread that created a view hierarchy can touch its views.
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < 3; i++) {
-                            double distance = DeltaLatLong.distance(location.getLatitude(), location.getLongitude(), latitudes[i], longitudes[i], "km");
-
-                            TextView textView = getView().findViewById(goalIds[i]);
-                            DecimalFormat df = new DecimalFormat("#.##");
-                            textView.setText("Distance to goal: " + df.format(distance) + " km");
-
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (int i = 0; i < goalObjects.size(); i++) {
+                                if (!completeGoals[i]) {
+                                    double distance = DeltaLatLong.distance(location.getLatitude(), location.getLongitude(), latitudes[i], longitudes[i], "km");
+                                    DecimalFormat df = new DecimalFormat("#.##");
+                                    if (distance >= 1) {
+                                        Log.i("DISTANCE", "kilometers to " + goalObjects.get(i).getTitle() + ": " + distance);
+                                        if (getView() != null) {
+                                            TextView textView = getView().findViewById(goalIds[i]);
+                                            textView.setText("Distance to goal: " + df.format(distance) + " km");
+                                        }
+                                    } else if (distance < 1 && distance * 1000 > 5) {
+                                        Log.i("DISTANCE", "meters to " + goalObjects.get(i).getTitle() + ": " + distance * 1000);
+                                        if (getView() != null) {
+                                            TextView textView = getView().findViewById(goalIds[i]);
+                                            textView.setText("Distance to goal: " + df.format(distance * 1000) + " m");
+                                        }
+                                    } else {
+                                        if (getView() != null) {
+                                            Goal goal = goalObjects.get(i);
+                                            TextView textView = getView().findViewById(goalIds[i]);
+                                            textView.setText(goal.getTitle() + " - Completed");
+                                            completeGoals[i] = !completeGoals[i];
+                                        }
+                                    }
+                                }
+                            }
                         }
-                    }
-                });
-                System.out.println("Lat: " + Double.toString(location.getLatitude()));
-                System.out.println("Long: " + Double.toString(location.getLongitude()));
-                try {
-                    Thread.sleep(1000);
+                    });
+                    try {
+                        Thread.sleep(1000);
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    break;
                 }
             }
         }
