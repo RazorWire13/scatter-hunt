@@ -4,9 +4,8 @@ package com.dmuench.scatterhunt;
 import android.location.Location;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,15 +30,16 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class PlayFragment extends Fragment {
-
+    private Bundle state;
     private ExpandingList expandingList;
     private String[] goals;
     private List<Goal> goalObjects;
-    private boolean[] completeGoals;
+    private Long[] completeGoals;
     private Location location;
     private double[] latitudes;
     private double[] longitudes;
     private int[] goalIds;
+    private int numberOfGoals;
 
     public PlayFragment() {
         // Required empty public constructor
@@ -54,44 +54,42 @@ public class PlayFragment extends Fragment {
         expandingList = view.findViewById(R.id.expanding_list_main);
 
         final LocationRun locationRun = new LocationRun();
-
         goalObjects = new ArrayList<>();
-        Bundle state = getArguments();
+        state = getArguments();
+        numberOfGoals = Integer.parseInt(state.getString("numberOfGoals"));
+        completeGoals = new Long[numberOfGoals];
         latitudes = new double[3];
         longitudes = new double[3];
         goalIds = new int[]{R.id.goal1, R.id.goal2, R.id.goal3};
+        Log.i("TIME", "Start At: " + state.getString("startTime"));
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         goals = new String[]{state.getString("goalOne"), state.getString("goalTwo"), state.getString("goalThree")};
 
-        for (int i = 0; i < goals.length; i++) {
-            if (goals[i] != null) {
-                final int finalI = i;
-                db.collection("Goals").document(goals[i]).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Goal goal = documentSnapshot.toObject(Goal.class);
-                        goalObjects.add(goal);
-                        latitudes[finalI] = goal.getLatitude();
-                        longitudes[finalI] = goal.getLongitude();
+        for (int i = 0; i < numberOfGoals; i++) {
+            final int finalI = i;
+            db.collection("Goals").document(goals[i]).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Goal goal = documentSnapshot.toObject(Goal.class);
+                    goalObjects.add(goal);
+                    latitudes[finalI] = goal.getLatitude();
+                    longitudes[finalI] = goal.getLongitude();
 
-                        String title = goal.getTitle();
-                        String clueOne = goal.getClueOne();
-                        String clueTwo = goal.getClueTwo();
-                        String clueThree = goal.getClueThree();
+                    String title = goal.getTitle();
+                    String clueOne = goal.getClueOne();
+                    String clueTwo = goal.getClueTwo();
+                    String clueThree = goal.getClueThree();
 
-                        addItem(title, new String[]{clueOne, clueTwo, clueThree}, finalI);
+                    addItem(title, new String[]{clueOne, clueTwo, clueThree}, finalI);
 
-                        if (finalI == goals.length - 1) {
-                            completeGoals = new boolean[goalObjects.size()];
-                            new Thread(locationRun).start();
-                        }
+                    if (finalI == numberOfGoals - 1) {
+                        new Thread(locationRun).start();
                     }
-                });
-            }
+                }
+            });
         }
-
         return view;
     }
 
@@ -102,42 +100,92 @@ public class PlayFragment extends Fragment {
 
                 // Must Have Because: Only the original thread that created a view hierarchy can touch its views.
                 if (getActivity() != null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            for (int i = 0; i < goalObjects.size(); i++) {
-                                if (!completeGoals[i]) {
-                                    double distance = DeltaLatLong.distance(location.getLatitude(), location.getLongitude(), latitudes[i], longitudes[i], "km");
-                                    DecimalFormat df = new DecimalFormat("#.##");
-                                    if (distance >= 1) {
-                                        Log.i("DISTANCE", "kilometers to " + goalObjects.get(i).getTitle() + ": " + distance);
-                                        if (getView() != null) {
-                                            TextView textView = getView().findViewById(goalIds[i]);
-                                            textView.setText("Distance to goal: " + df.format(distance) + " km");
-                                        }
-                                    } else if (distance < 1 && distance * 1000 > 5) {
-                                        Log.i("DISTANCE", "meters to " + goalObjects.get(i).getTitle() + ": " + distance * 1000);
-                                        if (getView() != null) {
-                                            TextView textView = getView().findViewById(goalIds[i]);
-                                            textView.setText("Distance to goal: " + df.format(distance * 1000) + " m");
-                                        }
-                                    } else {
-                                        if (getView() != null) {
-                                            Goal goal = goalObjects.get(i);
-                                            TextView textView = getView().findViewById(goalIds[i]);
-                                            textView.setText(goal.getTitle() + " - Completed");
-                                            completeGoals[i] = !completeGoals[i];
+                    if (goalObjects.size() == numberOfGoals) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (int i = 0; i < goalObjects.size(); i++) {
+                                    if (completeGoals[i] == null) {
+                                        double distance = DeltaLatLong.distance(location.getLatitude(), location.getLongitude(), latitudes[i], longitudes[i], "km");
+                                        DecimalFormat df = new DecimalFormat("#.##");
+                                        if (distance >= 1) {
+                                            Log.i("DISTANCE", "kilometers to " + goalObjects.get(i).getTitle() + ": " + distance);
+                                            if (getView() != null) {
+                                                TextView textView = getView().findViewById(goalIds[i]);
+                                                textView.setText("Distance to goal: " + df.format(distance) + " km");
+                                            }
+                                        } else if (distance < 1 && distance * 1000 > 5) {
+                                            Log.i("DISTANCE", "meters to " + goalObjects.get(i).getTitle() + ": " + distance * 1000);
+                                            if (getView() != null) {
+                                                TextView textView = getView().findViewById(goalIds[i]);
+                                                textView.setText("Distance to goal: " + df.format(distance * 1000) + " m");
+                                            }
+                                        } else {
+                                            if (getView() != null) {
+                                                Log.i("TIME", "Goal " + i + " At: " + System.currentTimeMillis());
+                                                Goal goal = goalObjects.get(i);
+                                                TextView textView = getView().findViewById(goalIds[i]);
+                                                textView.setText(goal.getTitle() + " - Completed");
+                                                completeGoals[i] = System.currentTimeMillis();
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    });
-                    try {
-                        Thread.sleep(1000);
+                        });
 
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        // Create gameEnd check boolean
+                        boolean gameEnd = true;
+
+                        // Verify gameEnd by checking against completed goals
+                        for (int i = 0; i < completeGoals.length; i++) {
+                            if (completeGoals[i] == null) {
+                                gameEnd = false;
+                            }
+                        }
+
+                        // If gameEnd still True then end game
+                        if (gameEnd) {
+                            // Add times for goals to state
+                            state.putString("goalOneTime", completeGoals.length >= 1 ? Long.toString(completeGoals[0]) : null);
+                            state.putString("goalTwoTime", completeGoals.length >= 2 ? Long.toString(completeGoals[1]) : null);
+                            state.putString("goalThreeTime", completeGoals.length >= 3 ? Long.toString(completeGoals[2]) : null);
+
+                            // Add names for goals to state
+                            state.putString("goalOneName", goalObjects.size() >= 1 ? goalObjects.get(0).getTitle() : null);
+                            state.putString("goalTwoName", goalObjects.size() >= 2 ? goalObjects.get(1).getTitle() : null);
+                            state.putString("goalThreeName", goalObjects.size() >= 3 ? goalObjects.get(2).getTitle() : null);
+
+
+                            // Calculate end time
+                            long latestTime =
+
+                                    // First check if there wasn't a 3rd goal
+                                    completeGoals.length < 3 ?
+
+                                            // Second check if there wasn't a 2nd goal
+                                            completeGoals.length < 2 ?
+
+                                                    // This occurs if only one goal existed
+                                                    completeGoals[0] :
+
+                                                    // This occurs if only two goals existed
+                                                    Math.max(completeGoals[0], completeGoals[1]) :
+
+                                            // This occurs if three goals existed
+                                            Math.max(completeGoals[0], Math.max(completeGoals[1], completeGoals[2]));
+
+                            state.putString("endTime", Long.toString(latestTime));
+                            if (getView() != null)
+                            Navigation.findNavController(getView()).navigate(R.id.gameEndAction, state);
+                        }
+
+                        try {
+                            Thread.sleep(1000);
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 } else {
                     break;

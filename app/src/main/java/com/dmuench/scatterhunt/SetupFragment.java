@@ -109,6 +109,7 @@ public class SetupFragment extends Fragment implements StepperFormListener {
         Log.i("FORM NUM OF GOALS", Integer.toString(numberOfGoals));
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final int finalNumberOfGoals = numberOfGoals;
         db.collection("Goals").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -118,6 +119,8 @@ public class SetupFragment extends Fragment implements StepperFormListener {
                 state.putString("goalOne", gameGoals.get(0));
                 state.putString("goalTwo", gameGoals.size() > 1 ? gameGoals.get(1) : null);
                 state.putString("goalThree", gameGoals.size() > 2 ? gameGoals.get(2) : null);
+                state.putString("startTime", Long.toString(System.currentTimeMillis()));
+                state.putString("numberOfGoals", Integer.toString(finalNumberOfGoals));
                 Navigation.findNavController(getView()).navigate(R.id.playFragmentAction, state);
             }
 
