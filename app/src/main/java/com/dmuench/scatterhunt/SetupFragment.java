@@ -130,26 +130,29 @@ public class SetupFragment extends Fragment implements StepperFormListener {
 
                 for (DocumentSnapshot document: queryDocumentSnapshots) {
                     Goal currentGoalSnapshot = document.toObject(Goal.class);
-                    if (currentGoalSnapshot.getCreatedBy() != userId) {
+                    if (!currentGoalSnapshot.getCreatedBy().equals(userId)) {
                         if (DeltaLatLong.distance(latitude, longitude, currentGoalSnapshot.getLatitude(), currentGoalSnapshot.getLongitude(), "km") <= playfieldRange) goalsWithinPlayfield.add(document);
                     }
                 }
+                List<Integer> numbers = getRandomNumberInRange(0, goalsWithinPlayfield.size() -1);
                 for (int i = 0; i < numberOfGoals; i++) {
-                    int indexToGrab = getRandomNumberInRange(0, goalsWithinPlayfield.size());
 
-                    goalsSelected.add(goalsWithinPlayfield.get(indexToGrab).getId());
+                    goalsSelected.add(goalsWithinPlayfield.get(numbers.get(i)).getId());
                 }
         return goalsSelected;
     }
 
-    private static int getRandomNumberInRange(int min, int max) {
-
+    private static ArrayList<Integer> getRandomNumberInRange(int min, int max) {
+        ArrayList<Integer> randoms = new ArrayList<>();
         if (min >= max) {
             throw new IllegalArgumentException("max must be greater than min");
         }
-
-        Random r = new Random();
-        return r.nextInt((max - min) + 1) + min;
+        while (randoms.size() != 3) {
+            Random r = new Random();
+            int next = r.nextInt((max - min) + 1) + min;
+            if (!randoms.contains(next)) randoms.add(next);
+        }
+        return randoms;
     }
 
     @Override
