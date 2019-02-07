@@ -7,12 +7,19 @@
 
     <string name="playfieldRangeError">At least 1 range must be selected</string>
     <string name="numberOfGoalsError">At least 1 goal must be selected</string>
+    <string name="game_end_title">Congrats, You Won!</string>
+    <string name="time_completed">Game Completed In:</string>
+    <string name="goal_one_completed">Goal 1 Completed In:</string>
+    <string name="goal_two_completed">Goal 2 Completed In:</string>
+    <string name="goal_three_completed">Goal 3 Completed In:</string>
+    <string name="home_btn_text">Home</string>
+    <string name="new_game_btn_text">Play Another Game</string>
 
     <!-- IDs -->
 
-    <item type="id" name="goal1" />
-    <item type="id" name="goal2" />
-    <item type="id" name="goal3" />
+    <item name="goal1" type="id" />
+    <item name="goal2" type="id" />
+    <item name="goal3" type="id" />
 
     <string-array name="playfieldRange">
         <item>0.5</item>
