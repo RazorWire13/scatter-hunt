@@ -9,8 +9,10 @@
     <color name="green">#01FF0B</color>
     <color name="yellow">#FEFF01</color>
     <color name="white">#FFFFFF</color>
+    <color name="ivory">#FFFFF0</color>
+    <color name="ghostWhite">#F8F8FF</color>
     <color name="black">#000000</color>
-
+    <color name="darkGrey">#2f3133</color>
 
 
 

@@ -3,9 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimary">@color/lightBlue</item>
         <item name="colorPrimaryDark">@color/purple</item>
-        <item name="colorAccent">@color/yellow</item>
+        <item name="colorAccent">@color/ivory</item>
+        <item name="android:fontFamily">@font/maven_bold</item>
     </style>
 
 </resources>
