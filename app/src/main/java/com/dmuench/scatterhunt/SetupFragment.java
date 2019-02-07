@@ -134,6 +134,7 @@ public class SetupFragment extends Fragment implements StepperFormListener {
                         if (DeltaLatLong.distance(latitude, longitude, currentGoalSnapshot.getLatitude(), currentGoalSnapshot.getLongitude(), "km") <= playfieldRange) goalsWithinPlayfield.add(document);
                     }
                 }
+                // TODO: If no goals exist within the playfield this crashes the app, find possible fixes
                 List<Integer> numbers = getRandomNumberInRange(0, goalsWithinPlayfield.size() -1);
                 for (int i = 0; i < numberOfGoals; i++) {
 
