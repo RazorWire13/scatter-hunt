@@ -136,7 +136,7 @@ public class MainFragment extends Fragment {
         btnGoToSetupFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.testaction);
+                Navigation.findNavController(view).navigate(R.id.setupFragmentAction);
             }
         });
 

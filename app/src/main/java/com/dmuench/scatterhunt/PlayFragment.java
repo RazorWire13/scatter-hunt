@@ -1,6 +1,7 @@
 package com.dmuench.scatterhunt;
 
 
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,13 @@ import android.widget.TextView;
 
 import com.diegodobelo.expandingview.ExpandingItem;
 import com.diegodobelo.expandingview.ExpandingList;
+import com.dmuench.scatterhunt.models.Goal;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,6 +28,9 @@ import com.diegodobelo.expandingview.ExpandingList;
 public class PlayFragment extends Fragment {
 
     private ExpandingList expandingList;
+    private String[] goals;
+    private List<Goal> goalList;
+    private Location location;
 
     public PlayFragment() {
         // Required empty public constructor
@@ -31,6 +42,27 @@ public class PlayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Bundle state = getArguments();
+        goalList = new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        goals = new String[]{state.getString("goalOne"), state.getString("goalTwo"), state.getString("goalThree")};
+
+        for (int i = 0; i < goals.length; i++) {
+            if (goals[i] != null) {
+                db.collection("Goals").document(goals[i]).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        goalList.add(documentSnapshot.toObject(Goal.class));
+                    }
+                });
+            }
+        }
+
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_play, container, false);
 
@@ -56,6 +88,14 @@ findViewById to get any View inside the layout*/
         return view;
 
     }
+
+    class LocationRun implements Runnable {
+        public void run() {
+            location = MainActivity.location;
+
+        }
+    }
+
 
     private void addItem(String title, String[] subItems, String distance) {
         //Let's create an item with R.layout.expanding_layout
@@ -85,26 +125,6 @@ findViewById to get any View inside the layout*/
 
     }
 
-
-
-
-
-    private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
-        if ((lat1 == lat2) && (lon1 == lon2)) {
-            return 0;
-        }
-        else {
-            double theta = lon1 - lon2;
-            double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
-            dist = Math.acos(dist);
-            dist = Math.toDegrees(dist);
-            dist = dist * 60 * 1.1515;
-            if (unit == "K") {
-                dist = dist * 1.609344;
-            }
-            return (dist);
-        }
-    }
 
 
 
