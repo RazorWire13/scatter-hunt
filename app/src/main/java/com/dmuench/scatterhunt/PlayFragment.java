@@ -90,29 +90,31 @@ public class PlayFragment extends Fragment {
 
     class LocationRun implements Runnable {
         public void run() {
-            location = MainActivity.location;
+            while(true) {
+                location = MainActivity.location;
 
-            // Must Have Because: Only the original thread that created a view hierarchy can touch its views.
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i < 3; i++) {
-                        double distance = DeltaLatLong.distance(location.getLatitude(), location.getLongitude(), latitudes[i], longitudes[i], "km");
+                // Must Have Because: Only the original thread that created a view hierarchy can touch its views.
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 3; i++) {
+                            double distance = DeltaLatLong.distance(location.getLatitude(), location.getLongitude(), latitudes[i], longitudes[i], "km");
 
-                        TextView textView = getView().findViewById(goalIds[i]);
-                        DecimalFormat df = new DecimalFormat("#.##");
-                        textView.setText("Distance to goal: " + df.format(distance) + " km");
+                            TextView textView = getView().findViewById(goalIds[i]);
+                            DecimalFormat df = new DecimalFormat("#.##");
+                            textView.setText("Distance to goal: " + df.format(distance) + " km");
 
+                        }
                     }
+                });
+                System.out.println("Lat: " + Double.toString(location.getLatitude()));
+                System.out.println("Long: " + Double.toString(location.getLongitude()));
+                try {
+                    Thread.sleep(1000);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            });
-            System.out.println("Lat: " + Double.toString(location.getLatitude()));
-            System.out.println("Long: " + Double.toString(location.getLongitude()));
-            try {
-                Thread.sleep(1000);
-                run();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -127,7 +129,7 @@ public class PlayFragment extends Fragment {
         textView.setId(goalIds[index]);
 
         //This will create 3 items
-        item.createSubItems(4);
+        item.createSubItems(3);
         item.setIndicatorColorRes(R.color.black);
         item.setIndicatorIconRes(R.drawable.goal_expander_icon);
 
@@ -141,8 +143,7 @@ public class PlayFragment extends Fragment {
         View subItemTwo = item.getSubItemView(2);
         ((TextView) subItemTwo.findViewById(R.id.sub_title)).setText(subItems[2]);
 
-        View subItemThree = item.getSubItemView(3);
-        ((TextView) subItemThree.findViewById(R.id.sub_title)).setText("something");
-
     }
+
+
 }
