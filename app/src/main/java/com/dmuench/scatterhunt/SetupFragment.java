@@ -118,15 +118,16 @@ public class SetupFragment extends Fragment implements StepperFormListener {
                 if (gameGoals.size() < finalNumberOfGoals && gameGoals.size() > 0) {
                     Toast.makeText(getContext(), "Not Enough Goals Within Selected Play Field Please Choose A Larger Playfield Range Or Less Goals", Toast.LENGTH_SHORT).show();
                     Navigation.findNavController(getView()).navigate(R.id.not_enough_goals_action);
-                }
+                } else {
 
-                Bundle state = new Bundle();
-                state.putString("goalOne", gameGoals.size() > 0? gameGoals.get(0) : null);
-                state.putString("goalTwo", gameGoals.size() > 1 ? gameGoals.get(1) : null);
-                state.putString("goalThree", gameGoals.size() > 2 ? gameGoals.get(2) : null);
-                state.putString("startTime", Long.toString(System.currentTimeMillis()));
-                state.putString("numberOfGoals", Integer.toString(finalNumberOfGoals));
-                Navigation.findNavController(getView()).navigate(R.id.playFragmentAction, state);
+                    Bundle state = new Bundle();
+                    state.putString("goalOne", gameGoals.size() > 0 ? gameGoals.get(0) : null);
+                    state.putString("goalTwo", gameGoals.size() > 1 ? gameGoals.get(1) : null);
+                    state.putString("goalThree", gameGoals.size() > 2 ? gameGoals.get(2) : null);
+                    state.putString("startTime", Long.toString(System.currentTimeMillis()));
+                    state.putString("numberOfGoals", Integer.toString(finalNumberOfGoals));
+                    Navigation.findNavController(getView()).navigate(R.id.playFragmentAction, state);
+                }
             }
 
         });
