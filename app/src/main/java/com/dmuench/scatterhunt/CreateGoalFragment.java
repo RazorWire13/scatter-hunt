@@ -2,6 +2,7 @@ package com.dmuench.scatterhunt;
 
 
 import android.app.Activity;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.dmuench.scatterhunt.formsteps.ClueStep;
 import com.dmuench.scatterhunt.formsteps.TitleStep;
 import com.dmuench.scatterhunt.models.Goal;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -54,6 +56,7 @@ public class CreateGoalFragment extends Fragment implements StepperFormListener 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         // Create the steps.
         titleStep = new TitleStep("ScatterGoal Title");
         clueStepOne = new ClueStep("Clue", "One");
@@ -73,27 +76,25 @@ public class CreateGoalFragment extends Fragment implements StepperFormListener 
         Log.i("FORM CLUE ONE", clueStepOne.getStepData());
         Log.i("FORM CLUE TWO", clueStepTwo.getStepData());
         Log.i("FORM CLUE THREE", clueStepThree.getStepData());
-        Log.i("FORM LATITUDE", state.getString("latitude"));
-        Log.i("FORM LONGITUDE", state.getString("longitude"));
 
+//        String latitude = state.getString("latitude");
+//        String longitude = state.getString("longitude");
+        Location location = MainActivity.location;
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        Log.i("FORM LATITUDE","Latitude: " + latitude);
+        Log.i("FORM LONGITUDE", "Longitude: " + longitude);
 
-        String latitude = state.getString("latitude");
-        String longitude = state.getString("longitude");
-
-        if (latitude == null || longitude == null)
-            Toast.makeText(getContext(), "Location Data Not Available - Please Ensure Location Is Enabled", Toast.LENGTH_SHORT).show();
+        if (location == null)
+        Toast.makeText(getContext(), "Location Data Not Available - Please Ensure Location Is Enabled", Toast.LENGTH_SHORT).show();
         else {
 
             String[] clues = new String[]{clueStepOne.getStepData(), clueStepTwo.getStepData(), clueStepThree.getStepData()};
-            Goal goal = new Goal(titleStep.getStepData(), Double.parseDouble(latitude), Double.parseDouble(longitude), 5, clues, FirebaseAuth.getInstance().getCurrentUser());
+            Goal goal = new Goal(titleStep.getStepData(), latitude, longitude, 5, clues, FirebaseAuth.getInstance().getCurrentUser());
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("Goals").add(goal);
 
             Navigation.findNavController(getView()).navigate(R.id.returnToMainFragment);
-
-
-
-
 
         }
     }

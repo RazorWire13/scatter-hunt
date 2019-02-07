@@ -1,10 +1,15 @@
 package com.dmuench.scatterhunt;
 
 
+import android.Manifest;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormView;
 import ernestoyaquello.com.verticalstepperform.listener.StepperFormListener;
@@ -16,6 +21,15 @@ import android.view.ViewGroup;
 
 import com.dmuench.scatterhunt.formsteps.NumberOfGoalsStep;
 import com.dmuench.scatterhunt.formsteps.PlayfieldStep;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -29,6 +43,8 @@ public class SetupFragment extends Fragment implements StepperFormListener {
     private Bundle state;
 
     private VerticalStepperFormView verticalStepperForm;
+
+    private GeofencingClient mGeofencingClient;
 
     public SetupFragment() {
         // Required empty public constructor
@@ -46,10 +62,10 @@ public class SetupFragment extends Fragment implements StepperFormListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         // Create the steps.
         playfieldStep = new PlayfieldStep("Playfield Range");
         numberOfGoalsStep = new NumberOfGoalsStep("Number of Goals");
-
 
         // Find the form view, set it up and initialize it.
         verticalStepperForm = view.findViewById(R.id.stepper_form);
@@ -60,25 +76,34 @@ public class SetupFragment extends Fragment implements StepperFormListener {
 
     @Override
     public void onCompletedForm() {
-        Log.i("FORM TITLE", playfieldStep.getStepData().toString());
-        Log.i("FORM CLUE ONE", numberOfGoalsStep.getStepData().toString());
-//
-//        Log.i("FORM LATITUDE", state.getString("latitude"));
-//        Log.i("FORM LONGITUDE", state.getString("longitude"));
+
+        int playfieldRange = -1;
+        int numberOfGoals = -1;
+
+        boolean[] rangeArray = playfieldStep.getStepData();
+        boolean[] goalsArray = numberOfGoalsStep.getStepData();
+
+        double latitude = MainActivity.location.getLatitude();
+        double longitude = MainActivity.location.getLongitude();
+
+        Log.i("FORM LATITUDE", "Latitude: " + latitude);
+        Log.i("FORM LONGITUDE", "Longitude: " + longitude);
+
+        for (int i = 0; i < rangeArray.length; i++) {
+            if (rangeArray[i]) {
+                playfieldRange = Integer.parseInt(getContext().getResources().getStringArray(R.array.playfieldRange)[i]);
+            }
+            if (i < goalsArray.length && goalsArray[i]) {
+                numberOfGoals = Integer.parseInt(getContext().getResources().getStringArray(R.array.numberOfGoals)[i]);
+            }
+        }
+
+        Log.i("FORM PLAYFIELD", Integer.toString(playfieldRange));
+        Log.i("FORM NUM OF GOALS", Integer.toString(numberOfGoals));
 
 
-//        String latitude = state.getString("latitude");
-//        String longitude = state.getString("longitude");
-
-//        if (latitude == null || longitude == null)
-//            Toast.makeText(getContext(), "Location Data Not Available - Please Ensure Location Is Enabled", Toast.LENGTH_SHORT).show();
-//        else {
-
-// todo firebase stuff
-
-
-//        }
     }
+
 
     @Override
     public void onCancelledForm() {
@@ -86,3 +111,4 @@ public class SetupFragment extends Fragment implements StepperFormListener {
     }
 
 }
+

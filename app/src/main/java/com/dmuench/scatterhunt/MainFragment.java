@@ -53,8 +53,7 @@ import static android.content.Context.LOCATION_SERVICE;
 public class MainFragment extends Fragment {
 
     private static final int RC_SIGN_IN = 3742;
-    private static final int PERMISSIONS_REQUEST = 100;
-    private Location location;
+
     private Bundle state;
 
     public MainFragment() {
@@ -148,56 +147,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        // START OF LOCATION SERVICES
 
-        //Check whether GPS tracking is enabled//
-        Activity activity = getActivity();
-        LocationManager lm = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
-        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            activity.finish();
-        }
-
-        //Check whether this app has access to the location permission//
-
-        int permission = ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION);
-
-//If the location permission has been granted, then start the TrackerService//
-
-        if (permission == PackageManager.PERMISSION_GRANTED) {
-            startTrackerService();
-        } else {
-
-//If the app doesn’t currently have access to the user’s location, then request access//
-
-            requestPermissions(
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST);
-        }
-
-
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
-            grantResults) {
-
-        Log.d("PERMISSIONRESULT", "Received Result From Location Permission");
-
-//If the permission has been granted...//
-
-        if (requestCode == PERMISSIONS_REQUEST && grantResults.length == 1
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-//...then start the GPS tracking service//
-            startTrackerService();
-        } else {
-
-//If the user denies the permission request, then display a toast with some more information//
-            Log.d("TOASTS", "Denied Permissions Toast Should Happen Here");
-            Toast.makeText(getActivity(), "Scatterhunt Requires Location Services, Please Enable Location Permission", Toast.LENGTH_SHORT).show();
-        }
     }
 
 
@@ -228,56 +178,6 @@ public class MainFragment extends Fragment {
                 // ...
             }
         }
-    }
-
-    //Start the TrackerService//
-
-    private void startTrackerService() {
-
-        Log.d("TRACKER", "Start Tracker Services Permission Enabled");
-
-        LocationRequest request = new LocationRequest();
-
-//Specify how often your app should request the device’s location//
-
-        request.setInterval(10000);
-
-        //Get the most accurate location data available//
-
-        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getContext());
-        int permission = ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION);
-
-//If the app currently has access to the location permission...//
-
-        if (permission == PackageManager.PERMISSION_GRANTED) {
-
-//...then request location updates//
-
-            client.requestLocationUpdates(request, new LocationCallback() {
-                @Override
-                public void onLocationResult(LocationResult locationResult) {
-
-//Get a reference to the database, so your app can perform read and write operations//
-
-                    location = locationResult.getLastLocation();
-                    if (location != null) {
-                        state.putString("latitude", Double.toString(location.getLatitude()));
-                        state.putString("longitude", Double.toString(location.getLongitude()));
-
-                        Log.i("LATITUDE", Double.toString(location.getLatitude()));
-                        Log.i("LONGITUDE", Double.toString(location.getLongitude()));
-                        // TODO: Do Something With The Location To Check The Distance From The Goals.
-
-//Save the location data to the database//
-                    }
-                }
-            }, null);
-        }
-
-        //
-//        getActivity().finish();
     }
 
 
