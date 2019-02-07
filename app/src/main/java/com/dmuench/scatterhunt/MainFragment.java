@@ -75,6 +75,7 @@ public class MainFragment extends Fragment {
         final FirebaseAuth auth = FirebaseAuth.getInstance();
 
 
+
         if (auth.getCurrentUser() == null) {
             welcomeView.setText("NOT LOGGED IN");
             signInButton.setText("Sign Up/Sign In");
@@ -132,10 +133,11 @@ public class MainFragment extends Fragment {
         Button btnGoToSetupFragment = view.findViewById(R.id.btnGoToSetupFragment);
         Button btnGoToCreateGoalFragment = view.findViewById(R.id.btnGoToCreateGoalFragment);
 
+//                                                      changed to setup button to testaction for test
         btnGoToSetupFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.setupFragment);
+                Navigation.findNavController(view).navigate(R.id.testaction);
             }
         });
 

@@ -19,10 +19,13 @@ import com.diegodobelo.expandingview.ExpandingList;
  */
 public class PlayFragment extends Fragment {
 
+    private ExpandingList expandingList;
 
     public PlayFragment() {
         // Required empty public constructor
     }
+
+
 
 
     @Override
@@ -31,31 +34,60 @@ public class PlayFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_play, container, false);
 
-        ExpandingList expandingList = (ExpandingList) view.findViewById(R.id.expanding_list_main);
+//        // this is receiving the bundle from the previous fragment
+//        String[] goalIds = getArguments().getStringArray("goalIds");
 
-        ExpandingItem item = expandingList.createNewItem(R.layout.expanding_layout);
+        expandingList = view.findViewById(R.id.expanding_list_main);
+
+//        ExpandingItem item = expandingList.createNewItem(R.layout.expanding_layout);
 
 /*ExpandingItem extends from View, so you can call
 findViewById to get any View inside the layout*/
-        TextView textView = item.findViewById(R.id.title);
-        textView.setText("It Works!!");
 
-        //This will create 5 items
-        item.createSubItems(3);
-        item.setIndicatorColorRes(R.color.white);
-        item.setIndicatorIconRes(R.drawable.goal_expander_icon);
 
-//get a sub item View
-        View subItemZero = item.getSubItemView(0);
-        ((TextView) subItemZero.findViewById(R.id.sub_title)).setText("Cool");
+        addItem("Goal", new String[]{"Hint1", "Hint2", "Hint3"}, "3");
+        addItem("Goal2", new String[]{"Hint1", "Hint2", "Hint3"}, "5");
 
-        View subItemOne = item.getSubItemView(1);
-        ((TextView) subItemOne.findViewById(R.id.sub_title)).setText("Awesome");
+
+
+
 
 
         return view;
 
     }
+
+    private void addItem(String title, String[] subItems, String distance) {
+        //Let's create an item with R.layout.expanding_layout
+        ExpandingItem item = expandingList.createNewItem(R.layout.expanding_layout);
+
+        //If item creation is successful, let's configure it
+        TextView textView = item.findViewById(R.id.title);
+        textView.setText(title);
+
+        //This will create 3 items
+        item.createSubItems(4);
+        item.setIndicatorColorRes(R.color.black);
+        item.setIndicatorIconRes(R.drawable.goal_expander_icon);
+
+//get a sub item View
+        View subItemZero = item.getSubItemView(0);
+        ((TextView) subItemZero.findViewById(R.id.sub_title)).setText(subItems[0]);
+
+        View subItemOne = item.getSubItemView(1);
+        ((TextView) subItemOne.findViewById(R.id.sub_title)).setText(subItems[1]);
+
+        View subItemTwo = item.getSubItemView(2);
+        ((TextView) subItemTwo.findViewById(R.id.sub_title)).setText(subItems[2]);
+
+        View subItemThree = item.getSubItemView(3);
+        ((TextView) subItemThree.findViewById(R.id.sub_title)).setText(distance);
+
+    }
+
+
+
+
 
     private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
         if ((lat1 == lat2) && (lon1 == lon2)) {
@@ -73,5 +105,7 @@ findViewById to get any View inside the layout*/
             return (dist);
         }
     }
+
+
 
 }

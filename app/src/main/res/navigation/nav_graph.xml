@@ -17,6 +17,9 @@
         <action
             android:id="@+id/createGoalAction"
             app:destination="@id/createGoalFragment" />
+        <action
+            android:id="@+id/testaction"
+            app:destination="@id/playFragment" />
     </fragment>
     <fragment
         android:id="@+id/setupFragment"
