@@ -74,15 +74,26 @@
         android:label="fragment_play"
         tools:layout="@layout/fragment_play" >
         <action
-            android:id="@+id/game_end_screen"
-            app:destination="@id/placeholder" />
+            android:id="@+id/gameEndAction"
+            app:destination="@+id/endGameFragment" />
     </fragment>
     <fragment
         android:id="@+id/instructionsFragment"
         android:name="com.dmuench.scatterhunt.InstructionsFragment"
         android:label="fragment_instructions"
         tools:layout="@layout/fragment_instructions" />
-    <fragment android:id="@+id/placeholder" />
+    <fragment
+        android:id="@+id/endGameFragment"
+        android:name="com.dmuench.scatterhunt.EndGameFragment"
+        android:label="fragment_end_game"
+        tools:layout="@layout/fragment_end_game" >
+        <action
+            android:id="@+id/action_endGameFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_endGameFragment_to_setupFragment"
+            app:destination="@id/setupFragment" />
+    </fragment>
 
 
 </navigation>
