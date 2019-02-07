@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_setupFragment_to_instructionsFragment"
             app:destination="@id/instructionsFragment" />
+        <action
+            android:id="@+id/not_enough_goals_action"
+            app:destination="@+id/setupFragment" />
     </fragment>
     <fragment
         android:id="@+id/createGoalFragment"

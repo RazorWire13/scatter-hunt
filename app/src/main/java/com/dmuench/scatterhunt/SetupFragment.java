@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.dmuench.scatterhunt.formsteps.NumberOfGoalsStep;
 import com.dmuench.scatterhunt.formsteps.PlayfieldStep;
@@ -114,9 +115,13 @@ public class SetupFragment extends Fragment implements StepperFormListener {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<String> gameGoals = getGameGoals(queryDocumentSnapshots, radius, goals, latitude, longitude);
+                if (gameGoals.size() < finalNumberOfGoals && gameGoals.size() > 0) {
+                    Toast.makeText(getContext(), "Not Enough Goals Within Selected Play Field Please Choose A Larger Playfield Range Or Less Goals", Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(getView()).navigate(R.id.not_enough_goals_action);
+                }
 
                 Bundle state = new Bundle();
-                state.putString("goalOne", gameGoals.get(0));
+                state.putString("goalOne", gameGoals.size() > 0? gameGoals.get(0) : null);
                 state.putString("goalTwo", gameGoals.size() > 1 ? gameGoals.get(1) : null);
                 state.putString("goalThree", gameGoals.size() > 2 ? gameGoals.get(2) : null);
                 state.putString("startTime", Long.toString(System.currentTimeMillis()));
@@ -137,11 +142,12 @@ public class SetupFragment extends Fragment implements StepperFormListener {
                         if (DeltaLatLong.distance(latitude, longitude, currentGoalSnapshot.getLatitude(), currentGoalSnapshot.getLongitude(), "km") <= playfieldRange) goalsWithinPlayfield.add(document);
                     }
                 }
-                // TODO: If no goals exist within the playfield this crashes the app, find possible fixes
-                List<Integer> numbers = getRandomNumberInRange(0, goalsWithinPlayfield.size() -1);
-                for (int i = 0; i < numberOfGoals; i++) {
+                if (goalsWithinPlayfield.size() == numberOfGoals) {
+                    List<Integer> numbers = getRandomNumberInRange(0, goalsWithinPlayfield.size() - 1);
+                    for (int i = 0; i < numberOfGoals; i++) {
 
-                    goalsSelected.add(goalsWithinPlayfield.get(numbers.get(i)).getId());
+                        goalsSelected.add(goalsWithinPlayfield.get(numbers.get(i)).getId());
+                    }
                 }
         return goalsSelected;
     }
