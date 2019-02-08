@@ -30,10 +30,10 @@
     </string-array>
 
     <string-array name="playfieldRangeExtended">
-        <item>0.5 Miles</item>
-        <item>1.0 Miles</item>
-        <item>1.5 Miles</item>
-        <item>2.0 Miles</item>
+        <item>0.5 Kilometers</item>
+        <item>1.0 Kilometers</item>
+        <item>1.5 Kilometers</item>
+        <item>2.0 Kilometers</item>
 
     </string-array>
 

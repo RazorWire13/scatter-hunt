@@ -148,9 +148,6 @@ public class SetupFragment extends Fragment implements StepperFormListener {
 
     private static ArrayList<Integer> getRandomNumberInRange(int min, int max) {
         ArrayList<Integer> randoms = new ArrayList<>();
-        if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
         while (randoms.size() != 3) {
             Random r = new Random();
             int next = r.nextInt((max - min) + 1) + min;
