@@ -3,7 +3,7 @@
 
 ### Android ###
 # Built application files
-*.apk
+
 *.ap_
 
 # Google Services
@@ -22,7 +22,7 @@ out/
 
 # Gradle files
 .gradle/
-build/
+
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -82,10 +82,8 @@ gen-external-apklibs
 # Log Files
 
 # Android Studio
-/*/build/
 /*/local.properties
 /*/out
-/*/*/build
 /*/*/production
 *.ipr
 *~
@@ -211,5 +209,10 @@ Temporary Items
 # IDE
 .vscode
 
+#apk stuff
+/build/generated
+/build/intermediates
+/build/tmp
+!/build/outputs
 
 # End of https://www.gitignore.io/api/java,macos,android,androidstudio
