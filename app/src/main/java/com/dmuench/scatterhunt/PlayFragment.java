@@ -54,10 +54,10 @@ public class PlayFragment extends Fragment {
         expandingList = view.findViewById(R.id.expanding_list_main);
 
         final LocationRun locationRun = new LocationRun();
-        goalObjects = new Goal[3];
         state = getArguments();
         numberOfGoals = Integer.parseInt(state.getString("numberOfGoals"));
         completeGoals = new Long[numberOfGoals];
+        goalObjects = new Goal[numberOfGoals];
         latitudes = new double[3];
         longitudes = new double[3];
         goalIds = new int[]{R.id.goal1, R.id.goal2, R.id.goal3};
@@ -77,7 +77,7 @@ public class PlayFragment extends Fragment {
                     latitudes[finalI] = goal.getLatitude();
                     longitudes[finalI] = goal.getLongitude();
 
-                    String title = goal.getTitle();
+                    String title = "Goal Distance Loading";
                     String clueOne = goal.getClueOne();
                     String clueTwo = goal.getClueTwo();
                     String clueThree = goal.getClueThree();
@@ -152,9 +152,9 @@ public class PlayFragment extends Fragment {
                             state.putString("goalThreeTime", completeGoals.length >= 3 ? Long.toString(completeGoals[2]) : null);
 
                             // Add names for goals to state
-                            state.putString("goalOneName", goalObjects[0] != null ? goalObjects[0].getTitle() : null);
-                            state.putString("goalTwoName", goalObjects[1] != null ? goalObjects[1].getTitle() : null);
-                            state.putString("goalThreeName", goalObjects[2] != null ? goalObjects[2].getTitle() : null);
+                            state.putString("goalOneName", goalObjects.length >= 1? goalObjects[0].getTitle() : null);
+                            state.putString("goalTwoName", goalObjects.length >=2 ? goalObjects[1].getTitle() : null);
+                            state.putString("goalThreeName", goalObjects.length >=3 ? goalObjects[2].getTitle() : null);
 
 
                             // Calculate end time
