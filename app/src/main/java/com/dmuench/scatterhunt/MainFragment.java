@@ -115,6 +115,7 @@ public class MainFragment extends Fragment {
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
                                     .setAvailableProviders(providers)
+                                    .setTheme(R.style.AppTheme)
                                     .build(),
                             RC_SIGN_IN);
                 }
