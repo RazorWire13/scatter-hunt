@@ -33,7 +33,7 @@ public class PlayFragment extends Fragment {
     private Bundle state;
     private ExpandingList expandingList;
     private String[] goals;
-    private List<Goal> goalObjects;
+    private Goal[] goalObjects;
     private Long[] completeGoals;
     private Location location;
     private double[] latitudes;
@@ -54,7 +54,7 @@ public class PlayFragment extends Fragment {
         expandingList = view.findViewById(R.id.expanding_list_main);
 
         final LocationRun locationRun = new LocationRun();
-        goalObjects = new ArrayList<>();
+        goalObjects = new Goal[3];
         state = getArguments();
         numberOfGoals = Integer.parseInt(state.getString("numberOfGoals"));
         completeGoals = new Long[numberOfGoals];
@@ -73,7 +73,7 @@ public class PlayFragment extends Fragment {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     Goal goal = documentSnapshot.toObject(Goal.class);
-                    goalObjects.add(goal);
+                    goalObjects[finalI] = goal;
                     latitudes[finalI] = goal.getLatitude();
                     longitudes[finalI] = goal.getLongitude();
 
@@ -100,22 +100,22 @@ public class PlayFragment extends Fragment {
 
                 // Must Have Because: Only the original thread that created a view hierarchy can touch its views.
                 if (getActivity() != null) {
-                    if (goalObjects.size() == numberOfGoals) {
+                    if (goalObjects.length == numberOfGoals) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                for (int i = 0; i < goalObjects.size(); i++) {
+                                for (int i = 0; i < numberOfGoals; i++) {
                                     if (completeGoals[i] == null) {
                                         double distance = DeltaLatLong.distance(location.getLatitude(), location.getLongitude(), latitudes[i], longitudes[i], "km");
                                         DecimalFormat df = new DecimalFormat("#.##");
                                         if (distance >= 1) {
-                                            Log.i("DISTANCE", "kilometers to " + goalObjects.get(i).getTitle() + ": " + distance);
+                                            Log.i("DISTANCE", "kilometers to " + goalObjects[i].getTitle() + ": " + distance);
                                             if (getView() != null) {
                                                 TextView textView = getView().findViewById(goalIds[i]);
                                                 textView.setText("Distance to goal: " + df.format(distance) + " km");
                                             }
                                         } else if (distance < 1 && distance * 1000 > 5) {
-                                            Log.i("DISTANCE", "meters to " + goalObjects.get(i).getTitle() + ": " + distance * 1000);
+                                            Log.i("DISTANCE", "meters to " + goalObjects[i].getTitle() + ": " + distance * 1000);
                                             if (getView() != null) {
                                                 TextView textView = getView().findViewById(goalIds[i]);
                                                 textView.setText("Distance to goal: " + df.format(distance * 1000) + " m");
@@ -123,7 +123,7 @@ public class PlayFragment extends Fragment {
                                         } else {
                                             if (getView() != null) {
                                                 Log.i("TIME", "Goal " + i + " At: " + System.currentTimeMillis());
-                                                Goal goal = goalObjects.get(i);
+                                                Goal goal = goalObjects[i];
                                                 TextView textView = getView().findViewById(goalIds[i]);
                                                 textView.setText(goal.getTitle() + "\nCompleted");
                                                 completeGoals[i] = System.currentTimeMillis();
@@ -152,9 +152,9 @@ public class PlayFragment extends Fragment {
                             state.putString("goalThreeTime", completeGoals.length >= 3 ? Long.toString(completeGoals[2]) : null);
 
                             // Add names for goals to state
-                            state.putString("goalOneName", goalObjects.size() >= 1 ? goalObjects.get(0).getTitle() : null);
-                            state.putString("goalTwoName", goalObjects.size() >= 2 ? goalObjects.get(1).getTitle() : null);
-                            state.putString("goalThreeName", goalObjects.size() >= 3 ? goalObjects.get(2).getTitle() : null);
+                            state.putString("goalOneName", goalObjects[0] != null ? goalObjects[0].getTitle() : null);
+                            state.putString("goalTwoName", goalObjects[1] != null ? goalObjects[1].getTitle() : null);
+                            state.putString("goalThreeName", goalObjects[2] != null ? goalObjects[2].getTitle() : null);
 
 
                             // Calculate end time
