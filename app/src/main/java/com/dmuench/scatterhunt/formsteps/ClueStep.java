@@ -1,5 +1,6 @@
 package com.dmuench.scatterhunt.formsteps;
 
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -22,6 +23,8 @@ public class ClueStep extends Step<String> {
         // Here we generate the view that will be used by the library as the content of the step.
         // In this case we do it programmatically, but we could also do it by inflating an XML layout.
         clueView = new EditText(getContext());
+        clueView.setTextColor(Color.rgb(255, 255, 239));
+        clueView.setHintTextColor(Color.rgb(255, 255, 239));
         clueView.setSingleLine(true);
         clueView.setHint("ScatterGoal Clue " + clueNumber);
 

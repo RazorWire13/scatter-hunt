@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/lightBlue</item>
         <item name="colorPrimaryDark">@color/purple</item>
-        <item name="colorAccent">@color/ivory</item>
+        <item name="colorAccent">@color/lightBlue</item>
         <item name="android:fontFamily">@font/maven_bold</item>
     </style>
 
