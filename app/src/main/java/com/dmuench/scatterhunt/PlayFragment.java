@@ -125,7 +125,7 @@ public class PlayFragment extends Fragment {
                                                 Log.i("TIME", "Goal " + i + " At: " + System.currentTimeMillis());
                                                 Goal goal = goalObjects.get(i);
                                                 TextView textView = getView().findViewById(goalIds[i]);
-                                                textView.setText(goal.getTitle() + " - Completed");
+                                                textView.setText(goal.getTitle() + "\nCompleted");
                                                 completeGoals[i] = System.currentTimeMillis();
                                             }
                                         }

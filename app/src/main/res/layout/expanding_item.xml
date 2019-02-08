@@ -10,5 +10,6 @@ android:layout_height="94dp">
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
     android:gravity="center_vertical|left"
-    android:textSize="22sp"/>
+    android:textSize="22sp"
+    android:textColor="@color/ivory"/>
 </RelativeLayout>
