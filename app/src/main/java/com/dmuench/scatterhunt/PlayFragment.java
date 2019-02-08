@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -208,15 +209,22 @@ public class PlayFragment extends Fragment {
         item.setIndicatorColorRes(R.color.ivory);
         item.setIndicatorIconRes(R.drawable.goal_expander_icon);
 
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,24);
+
 //get a sub item View
         View subItemZero = item.getSubItemView(0);
         ((TextView) subItemZero.findViewById(R.id.sub_title)).setText(subItems[0]);
+        ((TextView) subItemZero.findViewById(R.id.sub_title)).setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
 
         View subItemOne = item.getSubItemView(1);
         ((TextView) subItemOne.findViewById(R.id.sub_title)).setText(subItems[1]);
+        ((TextView) subItemOne.findViewById(R.id.sub_title)).setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+
 
         View subItemTwo = item.getSubItemView(2);
         ((TextView) subItemTwo.findViewById(R.id.sub_title)).setText(subItems[2]);
+        ((TextView) subItemTwo.findViewById(R.id.sub_title)).setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+
 
     }
 
