@@ -1,9 +1,12 @@
 package com.dmuench.scatterhunt.formsteps;
 
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+
+import com.dmuench.scatterhunt.R;
 
 import ernestoyaquello.com.verticalstepperform.Step;
 
@@ -20,6 +23,8 @@ public class TitleStep extends Step<String> {
         // Here we generate the view that will be used by the library as the content of the step.
         // In this case we do it programmatically, but we could also do it by inflating an XML layout.
         titleView = new EditText(getContext());
+        titleView.setTextColor(Color.rgb(255, 255, 239));
+        titleView.setHintTextColor(Color.rgb(255, 255, 239));
         titleView.setSingleLine(true);
         titleView.setHint("ScatterGoal Title");
 
