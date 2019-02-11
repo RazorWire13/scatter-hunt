@@ -29,6 +29,42 @@ view that displays stats on how they did while on the hunt!
 ### Project Setup
 - [ScatterHunt Wire Frames](https://app.moqups.com/OnBW3IthIY/view) (moqups.com)
 
+## App Screenshots
+#### Main Screen (Not Logged In)
+<p float="left">
+  <img src="./screenshots/Screen_Main_NotLogin.png" width="125" />
+</p>
+
+#### Sign-in Screen
+<p float="left">
+  <img src="./screenshots/Screen_Sign_In.png" width="125" />
+</p>
+
+#### Main Screen (Logged In)
+<p float="left">
+  <img src="./screenshots/Screen_Main_LoggedIn.png" width="125" />
+</p>
+
+#### Create Goal
+<p float="left">
+  <img src="./screenshots/Screen_Create_Goal.png" width="125" />
+</p>
+
+#### Create Game
+<p float="left">
+  <img src="./screenshots/Screen_Create_Game.png" width="125" />
+</p>
+
+#### Play Screen w/goals expanded
+<p float="left">
+  <img src="./screenshots/Screen_Play_Screen.png" width="125" />
+</p>
+
+#### Post Game Stats
+<p float="left">
+  <img src="./screenshots/Screen_Post_Game_Stats.png" width="125" />
+</p>
+
 ## ScatterHunt Group Agreement
 ### Communication plan
 - Everyone gets to say something on a subject. 
