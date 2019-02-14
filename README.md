@@ -101,6 +101,7 @@ view that displays stats on how they did while on the hunt!
 
 ## External Resources
 * [Baeldung](https://www.baeldung.com/)(General Java code assistance)
+<!-- Please read your README before submitting your project. -->
 * [Spring Initializr](https://start.spring.io/) (uses dependencies: Web, devTools, postgreSQL, JPA, Security)
 * [Location Tracking Information](https://www.androidauthority.com/create-a-gps-tracking-application-with-firebase-realtime-databse-844343/) (Article on how to build interval based location updates)
 * [Expanding List Items](https://github.com/diegodobelo/AndroidExpandingViewLibrary/blob/master/README.md) (Used to create expanding goals in recycler view)

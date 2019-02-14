@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+// you can probably get rid of the example test in your final code.
 /**
  * Instrumented test, which will execute on an Android device.
  *

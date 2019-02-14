@@ -78,6 +78,7 @@ public class EndGameFragment extends Fragment {
 
         // If Goal One exists set name and time, otherwise set visibility to gone
         if (goalOneName != null) {
+            // Lots of not-translatable strings here.
             goalOneNameView.setText("Found " + goalOneName + " In:");
             goalOneTimeView.setText(getDeltaTimeString(goalOneTime, startTime));
         } else {

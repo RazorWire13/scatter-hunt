@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("PERMISSIONRESULT", "Received Result From Location Permission");
 
+        // Why is this comment not indented?
+        // Oh. Because this all comes from https://www.androidauthority.com/create-a-gps-tracking-application-with-firebase-realtime-databse-844343/
+        // It's REALLY weird to leave someone else's comments in your code, particularly
+        // when it references how "your app" works.
 //If the permission has been granted...//
 
         if (requestCode == PERMISSIONS_REQUEST && grantResults.length == 1
@@ -66,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             Log.d("TOASTS", "Please Enable Location Permissions");
+            // A toast is not sufficient for the fact that this will crash the app. Rather than
+            // showing a toast, you should redirect them to an activity that just tells the user to
+            // enable location. Toasts disappear; this should be a massive, blocking error message.
             Toast.makeText(this, "Scatterhunt Requires Location Services, Please Enable Location Permission", Toast.LENGTH_SHORT).show();
         }
     }
@@ -113,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
             }, null);
         }
 
+        // commented out code left in final product
         //
 //        getActivity().finish();
     }

@@ -20,9 +20,11 @@ public class ClueStep extends Step<String> {
 
     @Override
     protected View createStepContentLayout() {
+        // again, leaving in comments that are directions from code snippets is weird
         // Here we generate the view that will be used by the library as the content of the step.
         // In this case we do it programmatically, but we could also do it by inflating an XML layout.
         clueView = new EditText(getContext());
+        // You should probably create this color once, if you're using it multiple times.
         clueView.setTextColor(Color.rgb(255, 255, 239));
         clueView.setHintTextColor(Color.rgb(255, 255, 239));
         clueView.setSingleLine(true);
@@ -105,3 +107,4 @@ public class ClueStep extends Step<String> {
         clueView.setText(stepData);
     }
 }
+// missing trailing newline

@@ -44,6 +44,8 @@ public class InstructionsFragment extends Fragment {
      * @return A new instance of fragment InstructionsFragment.
      */
     // TODO: Rename and change types and number of parameters
+    // please do the TODOs in generated code
+    // also I don't think this method is ever used at all.
     public static InstructionsFragment newInstance(String param1, String param2) {
         InstructionsFragment fragment = new InstructionsFragment();
         Bundle args = new Bundle();
@@ -105,6 +107,7 @@ public class InstructionsFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+        // is this done? make sure to update your code!
         void onFragmentInteraction(Uri uri);
     }
 }

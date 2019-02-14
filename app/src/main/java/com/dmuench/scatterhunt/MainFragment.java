@@ -173,6 +173,8 @@ public class MainFragment extends Fragment {
 
                 // ...
             } else {
+                // You still have no error handling for if sign in fails!
+                // You need error handling!
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.

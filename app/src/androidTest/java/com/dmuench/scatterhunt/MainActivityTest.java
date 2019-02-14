@@ -10,6 +10,7 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.AndroidJUnit4;
 
+// this test contains no testing
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
