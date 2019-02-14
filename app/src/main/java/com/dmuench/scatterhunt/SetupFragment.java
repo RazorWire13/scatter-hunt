@@ -130,6 +130,7 @@ public class SetupFragment extends Fragment implements StepperFormListener {
     public List<String> getGameGoals(QuerySnapshot queryDocumentSnapshots, final double playfieldRange, final int numberOfGoals, final double latitude, final double longitude) {
         final List<String> goalsSelected = new ArrayList<>();
         final List<DocumentSnapshot> goalsWithinPlayfield = new ArrayList<>();
+        // Indentation is super off in this entire method.
 
                 for (DocumentSnapshot document: queryDocumentSnapshots) {
                     Goal currentGoalSnapshot = document.toObject(Goal.class);
@@ -138,6 +139,10 @@ public class SetupFragment extends Fragment implements StepperFormListener {
                     }
                 }
                 // TODO: If no goals exist within the playfield this crashes the app, find possible fixes
+                // this was the first thing that happened to me in this app. Particularly egregious
+                // when there's no direction on how to set up/run the app. You should ensure you
+                // have goals before you call the getRandomNumberInRange method, and save yourself that way.
+
                 List<Integer> numbers = getRandomNumberInRange(0, goalsWithinPlayfield.size() -1);
                 for (int i = 0; i < numberOfGoals; i++) {
 

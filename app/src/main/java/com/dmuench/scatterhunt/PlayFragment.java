@@ -66,6 +66,7 @@ public class PlayFragment extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        // why is goals an instance variable? You don't use it outside of this method.
         goals = new String[]{state.getString("goalOne"), state.getString("goalTwo"), state.getString("goalThree")};
 
         for (int i = 0; i < numberOfGoals; i++) {
@@ -85,6 +86,10 @@ public class PlayFragment extends Fragment {
 
                     addItem(title, new String[]{clueOne, clueTwo, clueThree}, finalI);
 
+                    // noooooooo! The nature of async programming is that the last requested item might not be the last to complete.
+                    // So this will still potentially start the thread before all the locations are received.
+                    // Instead, consider adding a single OnSuccessListener that counts the number of responses received,
+                    // and starts the thread if the number of responses received is equal to the number of requests sent.
                     if (finalI == numberOfGoals - 1) {
                         new Thread(locationRun).start();
                     }
@@ -113,6 +118,7 @@ public class PlayFragment extends Fragment {
                                             Log.i("DISTANCE", "kilometers to " + goalObjects[i].getTitle() + ": " + distance);
                                             if (getView() != null) {
                                                 TextView textView = getView().findViewById(goalIds[i]);
+                                                // hardcoded, non-translatable string
                                                 textView.setText("Distance to goal: " + df.format(distance) + " km");
                                             }
                                         } else if (distance < 1 && distance * 1000 > 5) {
@@ -148,6 +154,10 @@ public class PlayFragment extends Fragment {
                         // If gameEnd still True then end game
                         if (gameEnd) {
                             // Add times for goals to state
+                            // You could use an array for these instead of having so many different keys!
+                            // The simplest implementation would be two arrays, one for times and one for names;
+                            // the better implementation would make your Goal class implement Parcelable, and
+                            // set an array of Goal instances as a single key/value pair in the state.
                             state.putString("goalOneTime", completeGoals.length >= 1 ? Long.toString(completeGoals[0]) : null);
                             state.putString("goalTwoTime", completeGoals.length >= 2 ? Long.toString(completeGoals[1]) : null);
                             state.putString("goalThreeTime", completeGoals.length >= 3 ? Long.toString(completeGoals[2]) : null);
@@ -159,6 +169,11 @@ public class PlayFragment extends Fragment {
 
 
                             // Calculate end time
+                            // this could be simple getting-max code
+                            // long latestTime = completeGoals[0];
+                            // for (int i = 1; i < completeGoals.length; i++) {
+                            //     latestTime = Math.max(latestTime, completeGoals[i];
+                            // }
                             long latestTime =
 
                                     // First check if there wasn't a 3rd goal
@@ -178,7 +193,8 @@ public class PlayFragment extends Fragment {
 
                             state.putString("endTime", Long.toString(latestTime));
                             if (getView() != null)
-                            Navigation.findNavController(getView()).navigate(R.id.gameEndAction, state);
+                                // goto fail! oh no!!!
+                                Navigation.findNavController(getView()).navigate(R.id.gameEndAction, state);
                         }
 
                         try {

@@ -36,6 +36,7 @@ public class CreateGoalFragment extends Fragment implements StepperFormListener 
     private ClueStep clueStepOne;
     private ClueStep clueStepTwo;
     private ClueStep clueStepThree;
+    // You don't use this variable at all.
     private Bundle state;
 
     private VerticalStepperFormView verticalStepperForm;
